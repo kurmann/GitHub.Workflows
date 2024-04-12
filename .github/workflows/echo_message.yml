@@ -1,12 +1,11 @@
-# Dies ist ein Beispiel für die Verwendung von Workflows in GitHub.
-
-name: Use Echo Message Workflow
+name: Echo Message Workflow
 
 on:
-  push:
-    branches:
-      - main
+  workflow_call:  # Dieser Trigger ist notwendig, um den Workflow wiederverwendbar zu machen
 
 jobs:
-  call-echo-workflow:
-    uses: kurmann/GitHub.Workflows/.github/workflows/echo_message.yml@main
+  echo-message:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Echo a message
+        run: echo "Hello from Reusable Workflow!"
