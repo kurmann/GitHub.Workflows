@@ -1,0 +1,10 @@
+name: Use Echo Message Workflow
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  call-echo-workflow:
+    uses: kurmann/GitHub.Workflows/.github/workflows/echo_message.yml@main
