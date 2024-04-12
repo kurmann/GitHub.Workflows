@@ -49,3 +49,7 @@ Ich verwende Semantic Versioning für die Versionierung der Workflows. Dies gew�
 ## Support
 
 Bei Fragen oder Problemen mit den Workflows wende dich bitte über die [Issues-Seite](https://github.com/mein-username/reusable-workflows/issues) an mich.
+
+## Änderungsverlauf
+
+Änderungen an den Workflows werden im [Änderungsverlauf](docs/CHANGELOG.md).
