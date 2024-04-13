@@ -14,3 +14,10 @@ jobs:
         uses: release-drafter/release-drafter@v5
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Checkout code
+        uses: actions/checkout@v2
+        
+      - name: Create Git Tag
+        run: |
+            git tag ${{ github.event.release.tag_name }} ${{ github.sha }}
+            git push origin ${{ github.event.release.tag_name }}
