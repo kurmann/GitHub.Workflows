@@ -1,46 +1,45 @@
 mode: ContinuousDelivery
-branches: {}
-ignore:
-  sha: []
-merge-message-formats: {}
-commits-before: {}
-commit-message-incrementing: Enabled
-increment: Inherit
-
-commit-date-format: yyyy-MM-dd
 
 branches:
   main:
     regex: ^main$
     source-branches: ['develop', 'release']
     increment: Minor
-    prevent-increment-of-merged-branch-version: false
+    prevent-increment-of-merged-branch-version: true
+    track-merge-target: true
+    is-mainline: true
     tag: ''
-    is-source-branch-for:
-      - develop
-      - release
+
+  develop:
+    regex: ^develop$
+    source-branches: ['main', 'release', 'feature', 'support', 'hotfix']
+    increment: None
+    prevent-increment-of-merged-branch-version: false
+    track-merge-target: false
+    is-source-branch-for: ['release', 'feature', 'support', 'hotfix']
+    tag: ''
+
   feature:
     regex: ^features?[/-]
-    source-branches: ['develop', 'feature', 'support', 'hotfix']
-    increment: Patch
+    source-branches: ['develop']
+    increment: None  # Keine automatische Versionserhöhung für einzelne Commits
     prevent-increment-of-merged-branch-version: false
+    track-merge-target: false
+    is-source-branch-for: []
     tag: useBranchName
-    tracks-release-branches: false
-    is-source-branch-for:
-      - develop
-      - release
-      - feature
-      - support
-      - hotfix
+
   release:
     regex: ^releases?[/-]
-    source-branches: ['develop', 'release']
+    source-branches: ['develop']
     increment: Patch
     prevent-increment-of-merged-branch-version: true
+    track-merge-target: false
+    is-source-branch-for: ['main']
     tag: ''
-    is-source-branch-for:
-      - develop
-      - release
+
+commit-message-incrementing: Enabled
+
+commit-date-format: yyyy-MM-dd
 
 ignore:
   sha: []
