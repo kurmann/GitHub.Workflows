@@ -36,4 +36,4 @@ template: |
 # Versionierungsschema, das für das nächste Release verwendet wird. Hier wird die Patch-Nummer
 # inkrementiert. $PATCH wird automatisch durch die nächste Patch-Nummer ersetzt, die sich aus den
 # Änderungen seit dem letzten Release ergibt.
-version-template: '0.1.$PATCH'
+version-template: '0.2.$PATCH'
