@@ -1,0 +1,46 @@
+mode: ContinuousDelivery
+branches: {}
+ignore:
+  sha: []
+merge-message-formats: {}
+commits-before: {}
+commit-message-incrementing: Enabled
+increment: Inherit
+
+commit-date-format: yyyy-MM-dd
+
+branches:
+  main:
+    regex: ^main$
+    source-branches: ['develop', 'release']
+    increment: Minor
+    prevent-increment-of-merged-branch-version: false
+    tag: ''
+    is-source-branch-for:
+      - develop
+      - release
+  feature:
+    regex: ^features?[/-]
+    source-branches: ['develop', 'feature', 'support', 'hotfix']
+    increment: Patch
+    prevent-increment-of-merged-branch-version: false
+    tag: useBranchName
+    tracks-release-branches: false
+    is-source-branch-for:
+      - develop
+      - release
+      - feature
+      - support
+      - hotfix
+  release:
+    regex: ^releases?[/-]
+    source-branches: ['develop', 'release']
+    increment: Patch
+    prevent-increment-of-merged-branch-version: true
+    tag: ''
+    is-source-branch-for:
+      - develop
+      - release
+
+ignore:
+  sha: []
