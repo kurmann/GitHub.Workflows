@@ -1,0 +1,18 @@
+# .github/workflows/tag-creation.yml
+# Wird ausgelöst, wenn ein Release veröffentlicht wird, und erstellt das entsprechende Git-Tag.
+
+name: Tag Creation
+
+on:
+  release:
+    types: [published]
+
+jobs:
+  create-git-tag:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Create Git Tag
+        run: |
+          git tag ${{ github.event.release.tag_name }} ${{ github.sha }}
+          git push origin ${{ github.event.release.tag_name }}

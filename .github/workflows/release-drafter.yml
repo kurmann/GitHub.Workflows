@@ -1,0 +1,19 @@
+# .github/workflows/release-drafter.yml
+# Wird aktiviert, wenn Änderungen auf den main-Branch gepusht werden und bereitet den Release-Entwurf vor.
+
+name: Release Drafter
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  update_release_draft:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Run Release Drafter
+        uses: release-drafter/release-drafter@v5
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
