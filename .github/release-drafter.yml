@@ -1,0 +1,17 @@
+name-template: 'v$NEXT_PATCH_VERSION'
+tag-template: 'v$NEXT_PATCH_VERSION'
+categories:
+  - title: 'Features'
+    labels:
+      - 'feature'
+  - title: 'Bug Fixes'
+    labels:
+      - 'fix'
+  - title: 'Dokumentation'
+    labels:
+      - 'docs'
+change-template: '- $TITLE @$AUTHOR (#$NUMBER)'
+template: |
+  ## Änderungen
+  $CHANGES
+version-template: '0.1.$PATCH'
