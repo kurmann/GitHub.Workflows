@@ -3,8 +3,10 @@ name: Call Echo Message Workflow
 on:
   push:
     branches:
-      - main  # Stellt sicher, dass dieser Workflow bei Änderungen am Hauptbranch ausgelöst wird
+      - main
 
 jobs:
   trigger-echo-workflow:
     uses: ./.github/workflows/echo_message.yml
+    with:
+      message: 'Hello World from the caller workflow!'

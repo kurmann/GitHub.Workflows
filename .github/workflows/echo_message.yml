@@ -1,11 +1,16 @@
 name: Echo Message Workflow
 
 on:
-  workflow_call:  # Dieser Trigger ist notwendig, um den Workflow wiederverwendbar zu machen
+  workflow_call:
+    inputs:
+      message:
+        required: true
+        type: string
+        description: 'The message to echo'
 
 jobs:
   echo-message:
     runs-on: ubuntu-latest
     steps:
-      - name: Echo a message
-        run: echo "Hello from Reusable Workflow!"
+      - name: Echo the input message
+        run: echo "${{ inputs.message }}"
