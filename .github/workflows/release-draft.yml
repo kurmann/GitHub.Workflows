@@ -1,0 +1,52 @@
+name: Create Release Draft
+
+on:
+  push:
+    branches:
+      - main  # Führt diesen Workflow aus, wenn Änderungen an den main Branch gepusht werden
+
+jobs:
+  build-and-release:
+    runs-on: ubuntu-latest  # Definiert den Runner
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+      with:
+        fetch-depth: 0  # Holt die gesamte Git-Historie für GitVersion
+
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: '6.0.x'  # Stellt sicher, dass .NET installiert ist
+
+    - name: Install GitVersion
+      run: dotnet tool install --global GitVersion.Tool
+
+    - name: Determine Version
+      id: gitversion # Dies markiert die Schritte, um die Version zu berechnen
+      run: |
+        gitversion /output json /config GitVersion.yml
+      env:
+        DOTNET_NOLOGO: true
+
+    - name: Create GitHub Release Draft
+      uses: actions/create-release@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Nutzt das GitHub Token für Authentifizierung
+      with:
+        tag_name: ${{ steps.gitversion.outputs.SemVer }}  # Setzt den Tag-Namen zur Version
+        release_name: Release ${{ steps.gitversion.outputs.SemVer }}
+        draft: true
+        body: |
+          Changes in this Release:
+          - ${{ steps.gitversion.outputs.CommitsSinceVersionSource }} commits since last version.
+          ### Features
+          * New features added
+          ### Fixes
+          * Bugs fixed
+
+    - name: Tag Repository
+      run: |
+        git tag ${{ steps.gitversion.outputs.SemVer }}
+        git push origin ${{ steps.gitversion.outputs.SemVer }}
