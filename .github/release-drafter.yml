@@ -1,0 +1,39 @@
+# Setzt das Format für den Namen des Release-Tags.
+# $NEXT_PATCH_VERSION wird durch die nächste Patch-Version ersetzt,
+# basierend auf den analysierten Commits seit dem letzten Release.
+name-template: 'v$NEXT_PATCH_VERSION'
+
+# Setzt das Format für den Git-Tag, der dem Release zugeordnet wird.
+# Auch hier wird $NEXT_PATCH_VERSION automatisch basierend auf den analysierten Commits aktualisiert.
+tag-template: 'v$NEXT_PATCH_VERSION'
+
+# Definiert die Kategorien, die im Changelog angezeigt werden. Jede Kategorie kann
+# durch ein oder mehrere Labels identifiziert werden. Pull Requests, die diese Labels verwenden,
+# werden automatisch unter der entsprechenden Kategorie im Changelog aufgeführt.
+categories:
+  - title: 'Features'  # Titel der Kategorie, wie er im Changelog erscheinen wird.
+    labels:             # Liste der GitHub Labels, die diese Kategorie auslösen.
+      - 'feature'
+  - title: 'Bug Fixes'
+    labels:
+      - 'fix'
+  - title: 'Dokumentation'
+    labels:
+      - 'docs'
+
+# Definiert das Format einer einzelnen Änderung im Changelog.
+# $TITLE wird durch den Titel des Pull Requests oder Commit-Titels ersetzt,
+# $AUTHOR durch den GitHub-Nutzernamen des Autors und $NUMBER durch die Pull Request Nummer.
+# Diese Formatierung wird für jede im Changelog gelistete Änderung verwendet.
+change-template: '- $TITLE @$AUTHOR (#$NUMBER)'
+
+# Definiert das allgemeine Layout des Changelogs.
+# $CHANGES wird durch die Liste der Änderungen ersetzt, die gemäß `change-template` formatiert sind.
+template: |
+  ## Änderungen
+  $CHANGES
+
+# Versionierungsschema, das für das nächste Release verwendet wird. Hier wird die Patch-Nummer
+# inkrementiert. $PATCH wird automatisch durch die nächste Patch-Nummer ersetzt, die sich aus den
+# Änderungen seit dem letzten Release ergibt.
+version-template: '0.1.$PATCH'
