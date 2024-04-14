@@ -1,0 +1,75 @@
+# release-management.yml
+# Dieses Workflow-Datei erstellt einen Release-Entwurf, der auf den letzten Release-Tag basiert und die 
+# Versionsnummer entsprechend der Art des Tags erhöht. Der Workflow verwendet die GitHub Actions release-drafter/release-drafter@v5-Aktion, 
+# um den Entwurf zu erstellen. Der Workflow verwendet auch die InsonusK/get-latest-release@v1.0.1-Aktion, 
+# um den letzten Release-Tag zu erhalten.
+
+name: Release Management
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  prepare_and_draft_release:
+    runs-on: ubuntu-latest
+    env:
+      VERSION_TYPE: ''
+      NEW_VERSION: ''
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+
+      - name: Get latest release version
+        id: latest_version
+        uses: InsonusK/get-latest-release@v1.0.1
+        with:
+          myToken: ${{ secrets.GITHUB_TOKEN }}
+          exclude_types: 'draft|prerelease'
+
+      - name: Determine version increment
+        id: version_increment
+        run: |
+          LABELS=$(jq -r .label.name < $GITHUB_EVENT_PATH)
+          VERSION_TYPE="patch" # default to patch if no labels match
+          if [[ "$LABELS" == *"major"* ]]; then
+            VERSION_TYPE="major"
+          elif [[ "$LABELS" == *"minor"* ]]; then
+            VERSION_TYPE="minor"
+          fi
+          echo "VERSION_TYPE=$VERSION_TYPE" >> $GITHUB_ENV
+
+      - name: Calculate new version
+        id: calculate_new_version
+        run: |
+          LATEST_TAG=${{ steps.latest_version.outputs.tag_name }}
+          BASE_LIST=(${LATEST_TAG//./ })
+          MAJOR=${BASE_LIST[0]}
+          MINOR=${BASE_LIST[1]}
+          PATCH=${BASE_LIST[2]}
+          case ${{ env.VERSION_TYPE }} in
+            major)
+              MAJOR=$((MAJOR+1))
+              MINOR=0
+              PATCH=0
+              ;;
+            minor)
+              MINOR=$((MINOR+1))
+              PATCH=0
+              ;;
+            patch)
+              PATCH=$((PATCH+1))
+              ;;
+          esac
+          NEW_VERSION="$MAJOR.$MINOR.$PATCH"
+          echo "NEW_VERSION=$NEW_VERSION" >> $GITHUB_ENV
+
+      - name: Run Release Drafter
+        uses: release-drafter/release-drafter@v5
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NEXT_VERSION: ${{ env.NEW_VERSION }}
+        with:
+          version: ${{ env.NEW_VERSION }}
