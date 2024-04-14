@@ -1,0 +1,11 @@
+# .github/workflows/any-branch-push.yml
+name: Version Bump on Any Branch Push
+
+on: push
+
+jobs:
+  call-bump-csproj-version:
+    uses: ./.github/workflows/bump-csproj-version.yml
+    with:
+      csprojPath: 'src/Testproject.csproj' # Der Pfad zu Ihrer csproj-Datei
+      versionType: 'minor' # oder 'major', 'patch', 'preview', je nach Bedarf
