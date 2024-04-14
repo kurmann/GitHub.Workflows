@@ -1,3 +1,4 @@
+# release-management.yml
 name: Release Management
 
 on:
@@ -9,7 +10,6 @@ jobs:
   prepare_and_draft_release:
     runs-on: ubuntu-latest
     env:
-      VERSION_TYPE: ''
       NEW_VERSION: ''
     steps:
       - uses: actions/checkout@v4
@@ -23,18 +23,6 @@ jobs:
           myToken: ${{ secrets.GITHUB_TOKEN }}
           exclude_types: 'draft|prerelease'
 
-      - name: Determine version increment
-        id: version_increment
-        run: |
-          LABELS=$(jq -r .label.name < $GITHUB_EVENT_PATH)
-          VERSION_TYPE="minor" # Set default to minor if no labels match
-          if [[ "$LABELS" == *"major"* ]]; then
-            VERSION_TYPE="major"
-          elif [[ "$LABELS" == *"patch"* ]]; then
-            VERSION_TYPE="patch"
-          fi
-          echo "VERSION_TYPE=$VERSION_TYPE" >> $GITHUB_ENV
-
       - name: Calculate new version
         id: calculate_new_version
         run: |
@@ -43,20 +31,7 @@ jobs:
           MAJOR=${BASE_LIST[0]}
           MINOR=${BASE_LIST[1]}
           PATCH=${BASE_LIST[2]}
-          case $VERSION_TYPE in
-            major)
-              MAJOR=$((MAJOR+1))
-              MINOR=0
-              PATCH=0
-              ;;
-            minor)
-              MINOR=$((MINOR+1))
-              PATCH=0
-              ;;
-            patch)
-              PATCH=$((PATCH+1))
-              ;;
-          esac
+          MINOR=$((MINOR + 1)) # Beispiel zur Erhöhung der Minor-Version
           NEW_VERSION="$MAJOR.$MINOR.$PATCH"
           echo "NEW_VERSION=$NEW_VERSION" >> $GITHUB_ENV
 
@@ -64,6 +39,6 @@ jobs:
         uses: release-drafter/release-drafter@v5
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          NEXT_VERSION: ${{ env.NEW_VERSION }}
         with:
           version: ${{ env.NEW_VERSION }}
+

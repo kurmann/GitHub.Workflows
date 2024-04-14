@@ -1,11 +1,11 @@
 # Setzt das Format für den Namen des Release-Tags.
 # $NEXT_PATCH_VERSION wird durch die nächste Patch-Version ersetzt,
 # basierend auf den analysierten Commits seit dem letzten Release.
-name-template: 'v$NEXT_PATCH_VERSION'
+name-template: 'v${{ env.NEW_VERSION }}'
 
 # Setzt das Format für den Git-Tag, der dem Release zugeordnet wird.
 # Auch hier wird $NEXT_PATCH_VERSION automatisch basierend auf den analysierten Commits aktualisiert.
-tag-template: 'v$NEXT_PATCH_VERSION'
+tag-template: 'v${{ env.NEW_VERSION }}'
 
 # Definiert die Kategorien, die im Changelog angezeigt werden. Jede Kategorie kann
 # durch ein oder mehrere Labels identifiziert werden. Pull Requests, die diese Labels verwenden,
@@ -32,8 +32,3 @@ change-template: '- $TITLE @$AUTHOR (#$NUMBER)'
 template: |
   ## Änderungen
   $CHANGES
-
-# Versionierungsschema, das für das nächste Release verwendet wird. Hier wird die Patch-Nummer
-# inkrementiert. $PATCH wird automatisch durch die nächste Patch-Nummer ersetzt, die sich aus den
-# Änderungen seit dem letzten Release ergibt.
-version-template: '0.2.$PATCH'
