@@ -1,0 +1,24 @@
+# bump-csproj-version.yml
+
+name: Bump csproj Version
+
+on:
+  workflow_call:
+    inputs:
+      csprojPath:
+        type: string
+        description: 'Path to the csproj file to update'
+        required: true
+      versionType:
+        type: string
+        description: 'Type of version increment: major, minor, patch, preview'
+        default: minor
+
+jobs:
+  bump-version:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Print Inputs
+        run: |
+          echo "Version Type: ${{ inputs.versionType }}"
+          echo "Csproj Path: ${{ inputs.csprojPath }}"
