@@ -1,9 +1,3 @@
-# release-management.yml
-# Dieses Workflow-Datei erstellt einen Release-Entwurf, der auf den letzten Release-Tag basiert und die 
-# Versionsnummer entsprechend der Art des Tags erhöht. Der Workflow verwendet die GitHub Actions release-drafter/release-drafter@v5-Aktion, 
-# um den Entwurf zu erstellen. Der Workflow verwendet auch die InsonusK/get-latest-release@v1.0.1-Aktion, 
-# um den letzten Release-Tag zu erhalten.
-
 name: Release Management
 
 on:
@@ -33,11 +27,11 @@ jobs:
         id: version_increment
         run: |
           LABELS=$(jq -r .label.name < $GITHUB_EVENT_PATH)
-          VERSION_TYPE="patch" # default to patch if no labels match
+          VERSION_TYPE="minor" # Set default to minor if no labels match
           if [[ "$LABELS" == *"major"* ]]; then
             VERSION_TYPE="major"
-          elif [[ "$LABELS" == *"minor"* ]]; then
-            VERSION_TYPE="minor"
+          elif [[ "$LABELS" == *"patch"* ]]; then
+            VERSION_TYPE="patch"
           fi
           echo "VERSION_TYPE=$VERSION_TYPE" >> $GITHUB_ENV
 
@@ -49,7 +43,7 @@ jobs:
           MAJOR=${BASE_LIST[0]}
           MINOR=${BASE_LIST[1]}
           PATCH=${BASE_LIST[2]}
-          case ${{ env.VERSION_TYPE }} in
+          case $VERSION_TYPE in
             major)
               MAJOR=$((MAJOR+1))
               MINOR=0
