@@ -51,7 +51,7 @@ jobs:
               ;;
           esac
           VERSION="${VERSION:-$MAJOR.$MINOR.$PATCH}"
-          echo "::set-output name=newVersion::$VERSION"
+          echo "newVersion=$VERSION" >> $GITHUB_ENV
 
       - name: Output new version
         run: echo "New version is ${{ steps.calculate_new_version.outputs.newVersion }}"
