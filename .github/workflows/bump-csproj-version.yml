@@ -22,18 +22,7 @@ jobs:
     name: Build and bump version
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
-
-      - name: Install .NET 7
-        uses: actions/setup-dotnet@v3
-        with:
-          dotnet-version: 7
-
-      - name: Restore dependencies
-        run: dotnet restore
-
-      - name: Build
-        run: dotnet build
+        uses: actions/checkout@v4
 
       - name: Map 'patch' to 'build'
         id: map_version
@@ -50,7 +39,6 @@ jobs:
         with:
           file: "${{ inputs.csprojPath }}"
           version: "${{ env.MAPPED_VERSION }}"
-
 
       - run: |
           git config user.name "${{ github.actor }}"
