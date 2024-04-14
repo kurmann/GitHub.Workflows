@@ -1,0 +1,57 @@
+name: Bump Version Based on Last Release
+
+on:
+  workflow_call:
+    inputs:
+      versionType:
+        type: string
+        description: 'Type of version increment: major, minor, patch, preview'
+        default: minor
+
+jobs:
+  bump-version:
+    runs-on: ubuntu-latest
+    outputs:
+      newVersion: ${{ steps.calculate_new_version.outputs.newVersion }}
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0  # Um die vollständige Historie für das Tagging zu erhalten
+
+      - name: Get latest release version
+        id: latest_version
+        uses: InsonusK/get-latest-release@v1.0.1
+        with:
+          myToken: ${{ secrets.GITHUB_TOKEN }}
+          exclude_types: 'draft|prerelease'  # Stellt sicher, dass keine Entwürfe oder Vorab-Releases berücksichtigt werden
+
+      - name: Calculate new version
+        id: calculate_new_version
+        run: |
+          LATEST_TAG=${{ steps.latest_version.outputs.tag_name }}
+          BASE_LIST=(${LATEST_TAG//./ })
+          MAJOR=${BASE_LIST[0]}
+          MINOR=${BASE_LIST[1]}
+          PATCH=${BASE_LIST[2]}
+          case "${{ inputs.versionType }}" in
+            major)
+              MAJOR=$((MAJOR+1))
+              MINOR=0
+              PATCH=0
+              ;;
+            minor)
+              MINOR=$((MINOR+1))
+              PATCH=0
+              ;;
+            patch)
+              PATCH=$((PATCH+1))
+              ;;
+            preview)
+              VERSION="$MAJOR.$MINOR.$PATCH-preview"
+              ;;
+          esac
+          VERSION="${VERSION:-$MAJOR.$MINOR.$PATCH}"
+          echo "::set-output name=newVersion::$VERSION"
+
+      - name: Output new version
+        run: echo "New version is ${{ steps.calculate_new_version.outputs.newVersion }}"
