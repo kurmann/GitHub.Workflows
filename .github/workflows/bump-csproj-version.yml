@@ -17,6 +17,8 @@ on:
 jobs:
   bump:
     runs-on: ubuntu-latest
+    env:
+      MAPPED_VERSION: ''
     name: Build and bump version
     steps:
       - name: Checkout
@@ -33,12 +35,21 @@ jobs:
       - name: Build
         run: dotnet build
 
-      - name: Bump build version
+      - name: Map 'patch' to 'build'
+        id: map_version
+        run: |
+          if [ "${{ inputs.versionType }}" == "patch" ]; then
+            echo "MAPPED_VERSION=bump-build" >> $GITHUB_ENV
+          else
+            echo "MAPPED_VERSION=bump-${{ inputs.versionType }}" >> $GITHUB_ENV
+
+      - name: Bump project version
         id: bump
         uses: vers-one/dotnet-project-version-updater@v1.5
         with:
           file: "${{ inputs.csprojPath }}"
-          version: bump-build
+          version: "${{ env.MAPPED_VERSION }}"
+
 
       - run: |
           git config user.name "${{ github.actor }}"
