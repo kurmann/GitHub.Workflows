@@ -42,6 +42,7 @@ jobs:
             echo "MAPPED_VERSION=bump-build" >> $GITHUB_ENV
           else
             echo "MAPPED_VERSION=bump-${{ inputs.versionType }}" >> $GITHUB_ENV
+          fi
 
       - name: Bump project version
         id: bump
