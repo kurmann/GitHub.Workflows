@@ -14,13 +14,6 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Get latest release version
-        id: latest_version
-        uses: InsonusK/get-latest-release@v1.0.1
-        with:
-          myToken: ${{ secrets.GITHUB_TOKEN }}
-          exclude_types: 'draft|prerelease'
-
       - name: Run Release Drafter
         uses: release-drafter/release-drafter@v5
         env:
