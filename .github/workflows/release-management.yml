@@ -25,5 +25,6 @@ jobs:
         uses: release-drafter/release-drafter@v5
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          # Keine NEW_VERSION Umgebungsvariable hier setzen, da Release Drafter bereits Variablen zur Verfügung stellt.
         with:
-          config-name: release-drafter-config.yml # Stellen Sie sicher, dass diese Datei in Ihrem Repository vorhanden ist
+          config-name: release-drafter-config.yml
