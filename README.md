@@ -101,6 +101,28 @@ Sollten Inkonsistenzen in der automatischen Versionserhöhung beobachtet werden,
 
 Durch die Automatisierung mit dem Release Drafter bleibt das Repository organisiert und die Release Notes reflektieren stets den aktuellen Stand der Entwicklungen. Dies erleichtert die Versionierung und Veröffentlichung von neuen Releases erheblich.
 
+## Umgang mit Preview-Versionen
+
+Preview-Versionen sind wichtige Meilensteine in der Entwicklung, die eine frühzeitige Evaluierung neuer Features und Fixes ermöglichen, bevor diese in einem finalen Release landen. Die Handhabung von Preview-Versionen ist im Workflow wie folgt integriert:
+
+### Release Drafter Konfiguration für Preview-Versionen
+
+Während der Release Drafter automatisiert Entwürfe für Release-Notizen erstellt, wird die Unterscheidung zwischen regulären und Preview-Releases manuell verwaltet. Sobald der Release Drafter einen neuen Release-Entwurf erstellt hat, erfolgt die Kennzeichnung einer Version als Preview wie folgt:
+
+1. **Manuelle Anpassung des Versionstags**: Der vorgeschlagene Versionstag wird um das Suffix `-preview` ergänzt. Zum Beispiel wird aus `v0.3.1` dann `v0.3.1-preview`.
+   
+2. **Markierung als Pre-Release**: Bevor der Release veröffentlicht wird, wird in der GitHub Benutzeroberfläche das Kästchen „Set as a pre-release“ markiert, um das Release explizit als Vorabversion zu kennzeichnen.
+
+Diese manuellen Schritte stellen sicher, dass die Kommunikation über den Entwicklungsstatus transparent und klar ist und dass Benutzer entsprechend informiert werden, dass es sich um eine nicht produktionsreife Version handelt.
+
+### NuGet-Paketierung
+
+Für die Erstellung von NuGet-Paketen ist es entscheidend, dass die Versionsnummer korrekt übernommen wird. Der Schritt der Paketierung wird in den CI/CD-Workflow integriert und nutzt die Version, die im Release-Entwurf angegeben ist. Die detaillierte Konfiguration dieses Schrittes wird zu einem späteren Zeitpunkt hinzugefügt.
+
+### Schlussfolgerung
+
+Mit dieser Vorgehensweise bleibt der Prozess der Release-Erstellung übersichtlich und anpassungsfähig. Preview-Releases bieten einen wertvollen Einblick in die kommenden Veröffentlichungen und ermöglichen es, Feedback zu sammeln und Verbesserungen vorzunehmen, bevor ein Release offiziell abgeschlossen wird.
+
 ## Support
 
 Bei Fragen oder Problemen mit den Workflows wende dich bitte über die [Issues-Seite](https://github.com/mein-username/reusable-workflows/issues) an mich.
