@@ -27,9 +27,9 @@ jobs:
         id: get_notes
         run: |
           RELEASE_NOTES=$(gh release view --json body -q '.body')
-          echo "::set-output name=notes::$RELEASE_NOTES"
+          echo "RELEASE_NOTES=$RELEASE_NOTES" >> $GITHUB_ENV
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
     outputs:
-      release_notes: ${{ steps.get_notes.outputs.notes }}
+      release_notes: ${{ env.RELEASE_NOTES }}
