@@ -8,6 +8,10 @@ jobs:
   prepare_and_draft_release:
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
       - name: Run create-release-draft workflow
         id: create_release_draft
         uses: ./.github/workflows/create-release-draft.yml

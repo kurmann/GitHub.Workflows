@@ -11,10 +11,7 @@ jobs:
       RELEASE_NOTES:
       RELEASE_VERSION:
     steps:
-      - uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-
+      
       - name: Run Release Drafter
         id: drafter
         uses: release-drafter/release-drafter@v6
