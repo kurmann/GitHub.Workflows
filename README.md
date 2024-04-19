@@ -46,6 +46,61 @@ Um einen neuen Reusable Workflow hinzuzufügen:
 
 Ich verwende Semantic Versioning für die Versionierung der Workflows. Dies gewährleistet, dass Änderungen systematisch und vorhersehbar sind und hilft Nutzern, abwärtskompatible Versionen leicht zu identifizieren.
 
+Natürlich, hier ist eine aktualisierte Version der Dokumentation für Ihren `README.md`, die die Anwendung des Release Drafters und die Lösung des Problems mit der Versionsnummer widerspiegelt:
+
+## Automatisierte Release Notes mit Release Drafter
+
+### Zweck des Release Drafters
+
+Der Release Drafter ist ein Werkzeug, das dazu dient, den Prozess der Erstellung und Pflege von Release Notes zu automatisieren. Es verfolgt Änderungen, die durch Pull Requests im Repository eingeführt werden, und generiert einen zusammengefassten Entwurf für die Release Notes.
+
+### Release Drafter Konfiguration
+
+Die Konfiguration für den Release Drafter erfolgt über eine YAML-Datei namens `.github/release-drafter.yml`. Diese Datei definiert das Layout und Verhalten der automatisierten Release Notes. 
+
+```yaml
+# Beispiel für eine `release-drafter.yml` Konfiguration:
+name-template: 'v$NEXT_PATCH_VERSION'
+tag-template: 'v$NEXT_PATCH_VERSION'
+categories:
+  - title: 'Features'
+    labels:
+      - 'enhancement'
+  - title: 'Bug Fixes'
+    labels:
+      - 'bug'
+  - title: 'Dokumentation'
+    labels:
+      - 'documentation'
+change-template: '- $TITLE @$AUTHOR (#$NUMBER)'
+template: |
+  ## Änderungen
+  $CHANGES
+```
+
+### Workflow-Anpassungen für die Versionierung
+
+Der Workflow wurde so angepasst, dass er die Standard-GitHub-Labels für Features (`enhancement`), Bug Fixes (`bug`) und Dokumentationsupdates (`documentation`) verwendet. Der Release Drafter wendet automatisch eine neue Versionsnummer an, basierend auf den vorgenommenen Änderungen:
+
+- `bug` und `documentation` führen zu einer Patch-Versionserhöhung.
+- `enhancement` führt zu einer Minor-Versionserhöhung.
+
+### Versionsnummernvergabe
+
+Die Versionserhöhung erfolgt automatisch durch den Release Drafter, wobei die Minor-Version erhöht wird, wenn ein Feature mit dem Label `enhancement` hinzugefügt wird. Wenn die automatische Versionserhöhung nicht wie erwartet funktioniert, sollten die angewandten Labels und ihre Zuordnung in der Konfigurationsdatei überprüft werden.
+
+### Manuelle Überprüfung und Release
+
+Vor der Veröffentlichung eines Releases wird der Release-Entwurf manuell überprüft. Major-Versionserhöhungen werden bewusst manuell gehandhabt, um eine klare Trennung und spezielle Aufmerksamkeit für solche signifikanten Releases zu gewährleisten. Die Entscheidung über die Freigabe und das Tagging eines Major-Releases liegt beim Maintainer.
+
+### Beobachtung und Anpassung
+
+Sollten Inkonsistenzen in der automatischen Versionserhöhung beobachtet werden, wird dies weiter beobachtet und bei Bedarf werden Anpassungen an der Konfiguration oder dem Workflow vorgenommen, um sicherzustellen, dass der Release Drafter korrekt funktioniert.
+
+### Fazit
+
+Durch die Automatisierung mit dem Release Drafter bleibt das Repository organisiert und die Release Notes reflektieren stets den aktuellen Stand der Entwicklungen. Dies erleichtert die Versionierung und Veröffentlichung von neuen Releases erheblich.
+
 ## Support
 
 Bei Fragen oder Problemen mit den Workflows wende dich bitte über die [Issues-Seite](https://github.com/mein-username/reusable-workflows/issues) an mich.
