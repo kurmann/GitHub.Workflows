@@ -1,3 +1,5 @@
+# release-drafter-yml: 
+
 # Setzt das Format für den Namen des Release-Tags.
 # $NEXT_PATCH_VERSION wird durch die nächste Patch-Version ersetzt,
 # basierend auf den analysierten Commits seit dem letzten Release.
