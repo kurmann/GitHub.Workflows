@@ -1,4 +1,5 @@
-# release-drafter-yml: 
+# Konfigurationsdatei für das Release-Drafter-Tool.
+# release-drafter-config.yml
 
 # Setzt das Format für den Namen des Release-Tags.
 # $NEXT_PATCH_VERSION wird durch die nächste Patch-Version ersetzt,
