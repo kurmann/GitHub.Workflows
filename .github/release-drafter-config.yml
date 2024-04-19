@@ -52,4 +52,4 @@ version-resolver:
     labels:
       - 'bug'
       - 'documentation'
-  default: enhancement
+  default: minor
