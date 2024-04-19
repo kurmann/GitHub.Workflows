@@ -1,6 +1,2 @@
 # MacOS-spezifische Dateien
 *.DS_Store
-
-# .NET bin and obj directories
-bin/
-obj/
