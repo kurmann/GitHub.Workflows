@@ -42,6 +42,9 @@ template: |
 # Standardmäßig wird die Patch-Version erhöht. Für Minor-Updates wird ein entsprechendes Label benötigt.
 # Major-Updates werden manuell verwaltet und sind nicht automatisiert.
 version-resolver:
+  major:
+    labels:
+      - 'breaking'
   minor:
     labels:
       - 'enhancement'
