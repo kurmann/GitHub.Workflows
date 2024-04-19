@@ -14,10 +14,11 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Run Release Drafter
-        uses: release-drafter/release-drafter@v6
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          # Keine NEW_VERSION Umgebungsvariable hier setzen, da Release Drafter bereits Variablen zur Verfügung stellt.
-        with:
-          config-name: release-drafter-config.yml
+      - name: Run create-release-draft workflow
+        id: create_release_draft
+        uses: ./.github/workflows/create-release-draft.yml
+
+      - name: Log outputs
+        run: |
+          echo "Release notes: ${{ steps.create_release_draft.outputs.release_notes }}"
+          echo "Release version: ${{ steps.create_release_draft.outputs.release_version }}"
