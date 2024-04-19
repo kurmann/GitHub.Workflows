@@ -49,4 +49,4 @@ version-resolver:
     labels:
       - 'bug'
       - 'documentation'
-  default: patch
+  default: enhancement
