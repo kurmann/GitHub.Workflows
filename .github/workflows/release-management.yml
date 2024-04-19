@@ -15,7 +15,7 @@ jobs:
           fetch-depth: 0
 
       - name: Run Release Drafter
-        uses: release-drafter/release-drafter@v5
+        uses: release-drafter/release-drafter@v6
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           # Keine NEW_VERSION Umgebungsvariable hier setzen, da Release Drafter bereits Variablen zur Verfügung stellt.
