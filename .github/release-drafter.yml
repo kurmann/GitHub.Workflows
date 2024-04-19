@@ -13,15 +13,15 @@ tag-template: 'v${{ env.NEW_VERSION }}'
 # durch ein oder mehrere Labels identifiziert werden. Pull Requests, die diese Labels verwenden,
 # werden automatisch unter der entsprechenden Kategorie im Changelog aufgeführt.
 categories:
-  - title: 'Features'  # Titel der Kategorie, wie er im Changelog erscheinen wird.
-    labels:             # Liste der GitHub Labels, die diese Kategorie auslösen.
-      - 'feature'
+  - title: 'Features'
+    labels:
+      - 'enhancement'
   - title: 'Bug Fixes'
     labels:
-      - 'fix'
+      - 'bug'
   - title: 'Dokumentation'
     labels:
-      - 'docs'
+      - 'documentation'
 
 # Definiert das Format einer einzelnen Änderung im Changelog.
 # $TITLE wird durch den Titel des Pull Requests oder Commit-Titels ersetzt,
@@ -41,12 +41,12 @@ template: |
 version-resolver:
   major:
     labels:
-      - 'breaking'
+      - 'breaking' # Sie müssen ein Label 'breaking' manuell zu Ihrem Repo hinzufügen oder ein bestehendes Label verwenden, das große Änderungen repräsentiert.
   minor:
     labels:
-      - 'feature'
+      - 'enhancement'
   patch:
     labels:
-      - 'fix'
-      - 'docs'
+      - 'bug'
+      - 'documentation'
   default: patch
