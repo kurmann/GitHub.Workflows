@@ -1,0 +1,13 @@
+# .github/workflows/trigger-release-drafter.yml im aufrufenden Repository
+name: Trigger Release Drafter
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  call_release_drafter:
+    uses: ./.github/workflows/release-drafter.yml
+    secrets:
+      custom_github_token: ${{ secrets.GITHUB_TOKEN }}  # Übergibt das Standard-GITHUB_TOKEN unter neuem Namen
