@@ -1,0 +1,19 @@
+# .github/workflows/release-drafter.yml im zentralen Repository
+name: 'Release Drafter'
+
+on:
+  workflow_call:
+
+jobs:
+  draft_release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Run Release Drafter
+        uses: release-drafter/release-drafter@v6
+        with:
+          # Hier geben Sie den Pfad zur standardisierten Konfigurationsdatei an.
+          config-name: 'release-drafter-config.yml'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
