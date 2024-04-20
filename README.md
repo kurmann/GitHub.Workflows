@@ -40,6 +40,26 @@ jobs:
 
 Dieser Workflow wird manuell in dein Repository integriert und kann nach Bedarf angepasst werden. Er wird automatisch ausgelöst, wenn Pull Requests in den `main` Branch gemerged werden, und erstellt einen Release-Entwurf basierend auf den Änderungen, die in diesen Pull Requests vorgenommen wurden.
 
+### Warum der manuelle Kopierweg beim Release Drafter?
+
+Bei der Entwicklung und Wartung von Software-Projekten ist die Konfiguration der verwendeten Tools entscheidend für die Effizienz und Konsistenz der Arbeitsabläufe. Der Release Drafter, ein Tool zur Automatisierung der Erstellung von Release-Notizen, erfordert eine spezifische Konfigurationsdatei (`release-drafter-config.yml`), um korrekt zu funktionieren. Diese Datei definiert, wie die Release-Notizen aufgebaut und welche Informationen inkludiert werden sollen.
+
+#### Herausforderungen der zentralen Konfiguration
+
+1. **Zugänglichkeit und Sichtbarkeit**: Wenn die Konfiguration zentral verwaltet wird, könnte es schwierig sein, sie an die spezifischen Bedürfnisse jedes einzelnen Projekts anzupassen, ohne Einfluss auf andere Projekte zu nehmen.
+2. **Komplexität der Verwaltung**: Die Pflege einer zentralen Konfigurationsdatei, insbesondere in einem dynamischen Umfeld mit vielen Projekten, kann schnell unübersichtlich und schwer zu verwalten werden.
+3. **Abhängigkeit und Flexibilität**: Zentrale Lösungen erhöhen die Abhängigkeit von einem zentralen Repository. Änderungen oder Updates erfordern Koordination und können Verzögerungen verursachen.
+
+#### Vorteile des manuellen Kopierwegs
+
+Durch die Entscheidung für den manuellen Kopierweg, bei dem jedes Projekt seine eigene Kopie der Workflow- und Konfigurationsdateien erhält, ergeben sich mehrere Vorteile:
+
+- **Anpassungsfähigkeit**: Jedes Projekt kann seine eigene Version der Konfigurationsdatei anpassen, ohne andere Projekte zu beeinflussen.
+- **Einfachheit**: Die Einrichtung ist geradlinig und erfordert keine komplexen Zugriffsrechte oder Abhängigkeiten von externen Quellen.
+- **Kontrolle und Transparenz**: Projektteams haben die volle Kontrolle und Transparenz über die verwendeten Automatisierungstools und deren Konfiguration.
+
+Diese Strategie maximiert die Flexibilität und reduziert die Komplexität für Teams, indem sie ihnen ermöglicht, ihre Tools direkt und unabhängig zu verwalten.
+
 ## Zukünftige Workflows
 
 Weitere wiederverwendbare Workflows werden hinzugefügt, um verschiedene Aspekte der Software-Entwicklung und -Veröffentlichung zu unterstützen. Jeder Workflow wird vollständig dokumentiert sein, um seine Verwendung und Funktionalität zu erklären.
