@@ -1,3 +1,4 @@
+
 # GitHub Workflows
 
 ## Über dieses Repository
@@ -10,24 +11,34 @@ Dieses Repository dient als zentrale Sammelstelle für wiederverwendbare GitHub 
 
 Der Release Drafter Workflow automatisiert das Erstellen von Release-Entwürfen, indem er Änderungen, die durch Pull Requests eingeführt werden, aufzeichnet und in einem formatierten Release-Dokument zusammenfasst.
 
-#### Wie man den Workflow verwendet
+#### Wie man den Workflow manuell integriert
+ 
+**Schritte zur manuellen Integration des Release Drafter in dein Projekt:**
 
-Um den `release-drafter` Workflow in deinem Projekt zu verwenden, füge folgenden Befehl in die Workflow-Datei deines eigenen Repositories ein:
+1. Kopiere die `release-drafter.yml` und die `releasevdrafter-config.yml` aus diesem Repository in das `.github/workflows`-Verzeichnis deines eigenen Repositories.
+2. Passe die `release-drafter-config.yml` bei Bedarf an, um sie an die spezifischen Anforderungen deines Projekts anzupassen.
+3. Füge den Workflow in deine CI/CD-Pipeline ein, indem du folgenden Job in deine GitHub Actions Workflow-Datei einfügst:
 
 ```yaml
 jobs:
   release_draft:
-    uses: kurmann/GitHub.Workflows/.github/workflows/release-drafter.yml@main
-    secrets:
-      github_token: ${{ secrets.GITHUB_TOKEN }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Run Release Drafter
+        uses: ./.github/workflows/release-drafter.yml
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 ```
 
-**Geheimnisse:**
-- `github_token`: Ein GitHub-Token, das erforderlich ist, um auf Repository-Daten zuzugreifen, die für die Erstellung von Release-Entwürfen benötigt werden.
+**Wichtige Hinweise:**
+
+- Stelle sicher, dass du die `GITHUB_TOKEN` Secret in deinem Repository konfiguriert hast, um GitHub Aktionen zu ermöglichen, auf das Repository zuzugreifen.
+- Überprüfe und aktualisiere die Pfade in der `release-drafter.yml`, falls notwendig, um sicherzustellen, dass sie korrekt auf die `release-drafter-config.yml` verweisen.
 
 #### Funktionalität des Workflows
 
-Dieser Workflow nutzt eine zentral verwaltete Konfigurationsdatei im `kurmann` Repository, um festzulegen, wie die Release Notes formatiert und verwaltet werden sollen. Der Workflow wird automatisch ausgelöst, wenn Pull Requests in den `main` Branch gemerged werden, und erstellt einen Release-Entwurf basierend auf den Änderungen, die in diesen Pull Requests vorgenommen wurden.
+Dieser Workflow wird manuell in dein Repository integriert und kann nach Bedarf angepasst werden. Er wird automatisch ausgelöst, wenn Pull Requests in den `main` Branch gemerged werden, und erstellt einen Release-Entwurf basierend auf den Änderungen, die in diesen Pull Requests vorgenommen wurden.
 
 ## Zukünftige Workflows
 
