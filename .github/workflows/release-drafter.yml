@@ -3,6 +3,9 @@ name: 'Release Drafter'
 
 on:
   workflow_call:
+    secrets:
+      github_token:
+        required: true
 
 jobs:
   draft_release:
@@ -13,7 +16,6 @@ jobs:
       - name: Run Release Drafter
         uses: release-drafter/release-drafter@v6
         with:
-          # Hier geben Sie den Pfad zur standardisierten Konfigurationsdatei an.
-          config-name: 'release-drafter-config.yml'
+          config-name: 'release-drafter-config.yml'  # Pfad zur zentralen Konfigurationsdatei
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.github_token }}
