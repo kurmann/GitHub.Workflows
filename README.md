@@ -40,6 +40,28 @@ jobs:
 
 Dieser Workflow wird manuell in dein Repository integriert und kann nach Bedarf angepasst werden. Er wird automatisch ausgelöst, wenn Pull Requests in den `main` Branch gemerged werden, und erstellt einen Release-Entwurf basierend auf den Änderungen, die in diesen Pull Requests vorgenommen wurden.
 
+Natürlich, hier ist das gekürzte Teilkapitel mit der Dokumentation der spezifischen Berechtigungen für den Release Drafter:
+
+### Berechtigungen für den Release Drafter
+
+Beim Einsatz des Release Drafters in GitHub Actions ist es wichtig, die erforderlichen Berechtigungen präzise festzulegen, um sowohl die Funktionalität zu gewährleisten als auch die Sicherheit des Repositories zu wahren.
+
+#### Notwendige Berechtigungen
+
+Der Release Drafter benötigt spezifische Berechtigungen, die im YAML des Workflows definiert werden:
+
+```yaml
+permissions:
+  contents: write  # Notwendig, um Releases zu erstellen und Tags zu schreiben.
+  pull-requests: read  # Ermöglicht das Lesen von Informationen aus Pull Requests.
+```
+
+Mit `contents: write` kann der Release Drafter Release-Entwürfe erstellen und verwalten sowie Tags für neue Versionen anlegen. `pull-requests: read` erlaubt es, Details aus Pull Requests zu lesen, die für die Erstellung von Release-Notizen notwendig sind.
+
+#### Vorgehensweise
+
+Füge den `permissions`-Block direkt in deinen Release Drafter Workflow ein, um diese Berechtigungen zu setzen. Die Einstellungen auf Repository-Ebene für Workflow-Berechtigungen können auf „Read repository contents and packages permissions“ belassen werden, da die spezifischen Berechtigungen im YAML des Workflows die allgemeinen Einstellungen überschreiben.
+
 ### Warum der manuelle Kopierweg beim Release Drafter?
 
 Bei der Entwicklung und Wartung von Software-Projekten ist die Konfiguration der verwendeten Tools entscheidend für die Effizienz und Konsistenz der Arbeitsabläufe. Der Release Drafter, ein Tool zur Automatisierung der Erstellung von Release-Notizen, erfordert eine spezifische Konfigurationsdatei (`release-drafter-config.yml`), um korrekt zu funktionieren. Diese Datei definiert, wie die Release-Notizen aufgebaut und welche Informationen inkludiert werden sollen.
