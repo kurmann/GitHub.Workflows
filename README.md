@@ -82,6 +82,70 @@ Durch die Entscheidung für den manuellen Kopierweg, bei dem jedes Projekt seine
 
 Diese Strategie maximiert die Flexibilität und reduziert die Komplexität für Teams, indem sie ihnen ermöglicht, ihre Tools direkt und unabhängig zu verwalten.
 
+Natürlich! Hier ist ein Teilkapitel in Markdown, das das Vorgehen und die Benennung Ihrer CI-Workflows beschreibt und begründet. Dieses Kapitel kann als Teil der Dokumentation in Ihrem GitHub-Repository, das als zentrale Stelle für GitHub-Workflows dient, integriert werden:
+
+## Empfehlungen für Continuous Integration Workflows
+
+### Überblick
+
+Continuous Integration (CI) ist ein fundamentaler Bestandteil der modernen Softwareentwicklung, der darauf abzielt, die Softwareentwicklung durch automatisierte Tools zu beschleunigen und gleichzeitig die Codequalität zu verbessern. CI hilft dabei, Fehler frühzeitig im Entwicklungsprozess zu erkennen und zu beheben, was zu einer zuverlässigeren Software führt.
+
+### Workflow-Konfiguration
+
+In unserem zentralen Repository für GitHub-Workflows empfehlen wir zwei spezifische Workflows für die Handhabung von CI-Prozessen:
+
+1. **CI-Build-and-Package.yml**: Dieser Workflow wird auf jeden Push in `main` und alle Feature-Branches ausgelöst. Er ist verantwortlich für:
+   - Automatisches Bauen des Codes
+   - Durchführen von Tests
+   - Paketierung des Codes ohne Veröffentlichung
+   - Bereitstellung von Build-Artefakten für weitere Schritte oder Tests
+
+   ```yaml
+   jobs:
+     build_and_package:
+       runs-on: ubuntu-latest
+       steps:
+         - uses: actions/checkout@v2
+         - name: Build
+           run: make build
+         - name: Test
+           run: make test
+         - name: Package
+           run: make package
+   ```
+
+2. **CI-PR-Build-Publish.yml**: Dieser Workflow wird für Pull Requests gegen den `main` Branch ausgelöst. Zusätzlich zu den Aufgaben des CI-Build-and-Package Workflows übernimmt er:
+   - Veröffentlichung der NuGet-Pakete
+   - Erstellung eines Release Drafts, wenn der Pull Request erfolgreich gemerged wurde
+
+   ```yaml
+   jobs:
+     build_publish_and_release:
+       runs-on: ubuntu-latest
+       steps:
+         - uses: actions/checkout@v2
+         - name: Build
+           run: make build
+         - name: Test
+           run: make test
+         - name: Package and Publish
+           run: make publish
+         - name: Create Release Draft
+           run: make release
+   ```
+
+### Begründung der Workflow-Benennung
+
+Die Benennung der Workflows **CI-Build-and-Package** und **CI-PR-Build-Publish** wurde gewählt, um ihre Funktionen klar zu kommunizieren:
+- **Build-and-Package**: Konzentriert sich auf das Erstellen und Paketieren des Codes ohne dessen Veröffentlichung.
+- **Build-Publish**: Erweitert den Prozess um die Veröffentlichung und Release-Erstellung.
+
+Diese klare Trennung sorgt für eine bessere Verständlichkeit und erleichtert die Wartung der Workflows. Sie hilft neuen Entwicklern oder externen Teams, die mit dem Repository arbeiten, sofort zu verstehen, was jeder Workflow tut und wann er ausgelöst wird.
+
+### Abschluss
+
+Die Einrichtung spezifischer Workflows für unterschiedliche Zwecke ermöglicht es uns, die Prozesse umsichtig zu steuern und sicherzustellen, dass die Veröffentlichungen nach den höchsten Standards der Codequalität und Zuverlässigkeit erfolgen. Durch die zentrale Dokumentation und Verwaltung dieser Workflows schaffen wir eine konsistente und effiziente Entwicklungsumgebung.
+
 ## Zukünftige Workflows
 
 Weitere wiederverwendbare Workflows werden hinzugefügt, um verschiedene Aspekte der Software-Entwicklung und -Veröffentlichung zu unterstützen. Jeder Workflow wird vollständig dokumentiert sein, um seine Verwendung und Funktionalität zu erklären.
