@@ -36,20 +36,3 @@ template: |
   ## Änderungen
   $CHANGES
 
-# Definiert die Kategorien, die im Changelog angezeigt werden. Jede Kategorie kann
-# durch ein oder mehrere Labels identifiziert werden. Pull Requests, die diese Labels verwenden,
-# werden automatisch unter der entsprechenden Kategorie im Changelog aufgeführt.
-# Standardmäßig wird die Patch-Version erhöht. Für Minor-Updates wird ein entsprechendes Label benötigt.
-# Major-Updates werden manuell verwaltet und sind nicht automatisiert.
-version-resolver:
-  major:
-    labels:
-      - 'breaking'
-  minor:
-    labels:
-      - 'enhancement'
-  patch:
-    labels:
-      - 'bug'
-      - 'documentation'
-  default: minor
