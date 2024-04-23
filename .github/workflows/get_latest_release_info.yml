@@ -55,4 +55,4 @@ jobs:
           NEXT_VERSION="$MAJOR.$NEXT_MINOR.$PATCH"
           echo "next_version=$NEXT_VERSION" >> "$GITHUB_OUTPUT"
       - name: Print next version
-        run: echo "Next Version: ${{ steps.calculate_version.outputs.next_version }}"
+        run: 'echo "Next Version: ${{ steps.calculate_version.outputs.next_version }}"'
