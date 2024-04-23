@@ -1,15 +1,10 @@
 name: Test Get Latest Release Info
-
 on:
-    workflow_dispatch: 
-
+  push:
+    branches:
+      - main
 jobs:
-    read_release_info:
-        runs-on: ubuntu-latest
-        steps:
-            - name: Checkout code
-              uses: actions/checkout@v4
-            - name: Get latest release info
-              uses: ./.github/workflows/get_latest_release_info.yml
-              with:
-                token: ${{ secrets.GITHUB_TOKEN }}
+  test:
+    uses: ./.github/workflows/get_latest_release_info.yml
+    secrets:
+      token: ${{ secrets.GITHUB_TOKEN }}
