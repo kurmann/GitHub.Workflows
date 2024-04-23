@@ -13,11 +13,10 @@ jobs:
       - name: Get latest release
         id: get_release
         run: |
-          RELEASE_JSON=$(gh release view --json tagName,name,body,url)
+          RELEASE_JSON=$(gh release view --json tagName,name,url)
           RELEASE_TAG_NAME=$(echo "$RELEASE_JSON" | jq -r '.tagName')
           RELEASE_NAME=$(echo "$RELEASE_JSON" | jq -r '.name')
           RELEASE_URL=$(echo "$RELEASE_JSON" | jq -r '.url')
-          RELEASE_BODY=$(echo "$RELEASE_JSON" | jq -r '.body' | jq -sRr @json)
           RELEASE_VERSION="${RELEASE_TAG_NAME#"v"}"
           echo "release_version=$RELEASE_VERSION" >> "$GITHUB_OUTPUT"
           echo "release_tag_name=$RELEASE_TAG_NAME" >> "$GITHUB_OUTPUT"
@@ -28,7 +27,6 @@ jobs:
     outputs:
       release_version: ${{ steps.get_release.outputs.release_version }}
       release_tag_name: ${{ steps.get_release.outputs.release_tag_name }}
-      release_body: ${{ steps.get_release.outputs.release_body }}
       release_url: ${{ steps.get_release.outputs.release_url }}
 
   second_job:
@@ -39,5 +37,4 @@ jobs:
         run: |
           echo "Release Version: ${{ needs.read_and_print_release_data.outputs.release_version }}"
           echo "Release Tag Name: ${{ needs.read_and_print_release_data.outputs.release_tag_name }}"
-          echo "Release Body: ${{ needs.read_and_print_release_data.outputs.release_body }}"
           echo "Release URL: ${{ needs.read_and_print_release_data.outputs.release_url }}"
