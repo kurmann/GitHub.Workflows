@@ -23,7 +23,7 @@ categories:
 # $TITLE wird durch den Titel des Pull Requests oder Commit-Titels ersetzt,
 # $AUTHOR durch den GitHub-Nutzernamen des Autors und $NUMBER durch die Pull Request Nummer.
 # Diese Formatierung wird für jede im Changelog gelistete Änderung verwendet.
-change-template: '- $TITLE @$AUTHOR (#$NUMBER)'
+# change-template: '- $TITLE @$AUTHOR (#$NUMBER)'
 
 # Definiert das allgemeine Layout des Changelogs.
 # $CHANGES wird durch die Liste der Änderungen ersetzt, die gemäß `change-template` formatiert sind.
