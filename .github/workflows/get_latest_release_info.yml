@@ -61,6 +61,8 @@ jobs:
           echo "next_version=$NEXT_VERSION" >> "$GITHUB_OUTPUT"
       - name: Print next version
         run: 'echo "Next Version: ${{ steps.calculate_version.outputs.next_version }}"'
+    outputs:
+      next_version: ${{ steps.calculate_version.outputs.next_version }}
 
   draft_release:
     needs: calculate_next_version
