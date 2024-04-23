@@ -13,15 +13,18 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-
+    
       - name: Get latest release
+        id: get_release
         run: |
           RELEASE_JSON=$(gh release view --json tagName,name,url)
           RELEASE_TAG_NAME=$(echo "$RELEASE_JSON" | jq -r '.tagName')
           RELEASE_NAME=$(echo "$RELEASE_JSON" | jq -r '.name')
           RELEASE_URL=$(echo "$RELEASE_JSON" | jq -r '.url')
-          RELEASE_VERSION="${RELEASE_TAG_NAME#"v"}"
-          echo "LATEST_VERSION=$RELEASE_VERSION" >> $GITHUB_ENV
+          LATEST_VERSION="${RELEASE_TAG_NAME#"v"}" # Remove leading 'v'
+          echo "release_version=$RELEASE_VERSION"
+          echo "release_tag_name=$RELEASE_TAG_NAME"
+          echo "release_url=$RELEASE_URL"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
