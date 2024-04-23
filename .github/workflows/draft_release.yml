@@ -37,7 +37,7 @@ jobs:
       - name: Calculate next version
         id: calculate_version
         run: |
-          LATEST_VERSION=${{ needs.read_release_data.outputs.latest_version }}
+          LATEST_VERSION=${{ needs.read_release_data.outputs.release_version }}
           IFS='.' read -ra VERSION_PARTS <<< "$LATEST_VERSION"
           MAJOR=${VERSION_PARTS[0]}
           MINOR=${VERSION_PARTS[1]}
