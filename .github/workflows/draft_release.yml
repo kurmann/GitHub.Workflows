@@ -67,6 +67,7 @@ jobs:
           echo "Next Version: ${{ needs.calculate_next_version.outputs.next_version }}"
 
       - name: Run Release Drafter
+        id: release_drafter
         uses: release-drafter/release-drafter@v6
         with:
           config-name: 'release-drafter-config.yml'
@@ -75,4 +76,13 @@ jobs:
           VERSION: ${{ needs.calculate_next_version.outputs.next_version }}
           NAME: v${{ needs.calculate_next_version.outputs.next_version }}
           TAG: v${{ needs.calculate_next_version.outputs.next_version }}
+
+      - name: Print Release Drafter outputs
+        run: |
+          echo "Release ID: ${{ steps.release_drafter.outputs.id }}"
+          echo "Release Name: ${{ steps.release_drafter.outputs.name }}"
+          echo "Release Tag Name: ${{ steps.release_drafter.outputs.tag_name }}"
+          echo "Release Body: ${{ steps.release_drafter.outputs.body }}"
+          echo "Release HTML URL: ${{ steps.release_drafter.outputs.html_url }}"
+          echo "Release Upload URL: ${{ steps.release_drafter.outputs.upload_url }}"
 
