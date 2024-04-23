@@ -8,6 +8,10 @@ jobs:
     uses: ./.github/workflows/get_latest_release_info.yml
     secrets:
       token: ${{ secrets.GITHUB_TOKEN }}
+    outputs:
+      release_version: ${{ steps.get_latest_release_info.outputs.release_version }}
+      release_tag_name: ${{ steps.get_latest_release_info.outputs.release_tag_name }}
+      release_url: ${{ steps.get_latest_release_info.outputs.release_url }}
 
   another_job:
     needs: test
