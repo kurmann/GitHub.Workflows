@@ -1,11 +1,10 @@
-# .github/workflows/get_current_release.yml
-name: Print Current Release
+name: Manual Release Data Test
 
 on:
-  push:
+  workflow_dispatch:  # Erlaubt manuelles Auslösen des Workflows über die GitHub-Oberfläche
 
 jobs:
-  get_release:
+  test_release_data:
     runs-on: ubuntu-latest
     steps:
 
@@ -27,8 +26,3 @@ jobs:
         echo "Using version $RELEASE_VERSION for package."
       env:
         GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-    - name: Print release information
-      run: |
-        echo "Release name (version): $RELEASE_NAME"
-        echo "Release body: $RELEASE_BODY"
