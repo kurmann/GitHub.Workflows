@@ -68,7 +68,7 @@ jobs:
 
       - name: Run Release Drafter
         id: release_drafter
-        uses: release-drafter/release-drafter@v5
+        uses: release-drafter/release-drafter@v6
         with:
           config-name: 'release-drafter-config.yml'
         env:
