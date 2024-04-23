@@ -4,7 +4,7 @@ on:
   workflow_dispatch:  # Erlaubt manuelles Auslösen des Workflows über die GitHub-Oberfläche
 
 jobs:
-  test_release_data:
+  read_and_print_release_data:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
