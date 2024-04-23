@@ -49,16 +49,16 @@ jobs:
           echo "NEXT_VERSION=$NEXT_VERSION" >> $GITHUB_ENV
 
       - name: Print next version
-        run: echo "Next Version: $NEXT_VERSION"
+        run: |
+          echo "Next Version: $NEXT_VERSION"
 
   draft_release:
     needs: calculate_next_version
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-
       - name: Print next version for verification
-        run: echo "Next Version: $NEXT_VERSION"
+        run: |
+          echo "Next Version: $NEXT_VERSION"
 
       - name: Run Release Drafter
         uses: release-drafter/release-drafter@v6
