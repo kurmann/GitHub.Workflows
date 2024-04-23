@@ -1,9 +1,9 @@
 # Konfigurationsdatei für das Release-Drafter-Tool.
 # release-drafter-config.yml
 
-name-template: 'v$NEXT_MINOR_VERSION' # Automatisch erhöhte Versionsnummer
+name-template: 'v$RESOLVED_VERSION' # Automatisch erhöhte Versionsnummer
 
-tag-template: 'v$NEXT_MINOR_VERSION' # Automatisch erhöhte Versionsnummer
+tag-template: 'v$RESOLVED_VERSION' # Automatisch erhöhte Versionsnummer
 
 # Definiert die Kategorien, die im Changelog angezeigt werden. Jede Kategorie kann
 # durch ein oder mehrere Labels identifiziert werden. Pull Requests, die diese Labels verwenden,
@@ -23,10 +23,28 @@ categories:
 # $TITLE wird durch den Titel des Pull Requests oder Commit-Titels ersetzt,
 # $AUTHOR durch den GitHub-Nutzernamen des Autors und $NUMBER durch die Pull Request Nummer.
 # Diese Formatierung wird für jede im Changelog gelistete Änderung verwendet.
-# change-template: '- $TITLE @$AUTHOR (#$NUMBER)'
+change-template: '- $TITLE @$AUTHOR (#$NUMBER)'
 
 # Definiert das allgemeine Layout des Changelogs.
 # $CHANGES wird durch die Liste der Änderungen ersetzt, die gemäß `change-template` formatiert sind.
 template: |
   ## Änderungen
   $CHANGES
+
+# Definiert die Kategorien, die im Changelog angezeigt werden. Jede Kategorie kann
+# durch ein oder mehrere Labels identifiziert werden. Pull Requests, die diese Labels verwenden,
+# werden automatisch unter der entsprechenden Kategorie im Changelog aufgeführt.
+# Standardmäßig wird die Patch-Version erhöht. Für Minor-Updates wird ein entsprechendes Label benötigt.
+# Major-Updates werden manuell verwaltet und sind nicht automatisiert.
+version-resolver:
+  major:
+    labels:
+      - 'breaking'
+  minor:
+    labels:
+      - 'enhancement'
+  patch:
+    labels:
+      - 'bug'
+      - 'documentation'
+  default: minor
