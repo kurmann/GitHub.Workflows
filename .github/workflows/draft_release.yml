@@ -8,11 +8,10 @@ env:
   VERSION_INCREMENT: 'minor'  # Alternativ: major, patch
 
 jobs:
-
   draft_release:
     runs-on: ubuntu-latest
     env:
-      VERSION: '' # Wird von Release Drafter gesetzt
+      VERSION: '' # Wird im nächsten Schritt gesetzt
     steps:
       - name: Run Release Drafter
         id: release_drafter
@@ -22,11 +21,13 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name:  Remove leading 'v' from tag name and store in release_version
+      - name: Remove leading 'v' from tag name and store in release_version
         run: |
-          echo "Tag name: ${{ steps.release_drafter.outputs.tag_name }}"
-          run: |
-            echo "VERSION=${VERSION#v}" >> $GITHUB_ENV
+          TAG_NAME="${{ steps.release_drafter.outputs.tag_name }}"
+          echo "Tag name: $TAG_NAME"
+          VERSION="${TAG_NAME#v}"
+          echo "VERSION=$VERSION" >> $GITHUB_ENV
+
     outputs:
       release_id: ${{ steps.release_drafter.outputs.id }}
       release_name: ${{ steps.release_drafter.outputs.name }}
@@ -34,8 +35,6 @@ jobs:
       release_body: ${{ steps.release_drafter.outputs.body }}
       release_html_url: ${{ steps.release_drafter.outputs.html_url }}
       release_upload_url: ${{ steps.release_drafter.outputs.upload_url }}
-
-      # Use from version variable from the environment
       release_version: ${{ env.VERSION }}
 
   print_release_info:
