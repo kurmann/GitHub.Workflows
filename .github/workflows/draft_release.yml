@@ -16,8 +16,9 @@ jobs:
           RELEASE_TAG_NAME=$(echo "$RELEASE_JSON" | jq -r '.tagName')
           LATEST_VERSION="${RELEASE_TAG_NAME#"v"}" # Remove leading 'v'
           echo "LATEST_VERSION=$LATEST_VERSION" >> $GITHUB_ENV
+          echo "::set-output name=latest_version::$LATEST_VERSION"
     outputs:
-      latest_version: ${{ env.LATEST_VERSION }}
+      latest_version: ${{ steps.get_latest_release.outputs.latest_version }}
 
   calculate_next_version:
     needs: read_release_data
@@ -43,8 +44,9 @@ jobs:
           fi
           NEXT_VERSION="$MAJOR.$MINOR.$PATCH"
           echo "NEXT_VERSION=$NEXT_VERSION" >> $GITHUB_ENV
+          echo "::set-output name=next_version::$NEXT_VERSION"
     outputs:
-      next_version: ${{ env.NEXT_VERSION }}
+      next_version: ${{ steps.calculate_version.outputs.next_version }}
 
   draft_release:
     needs: calculate_next_version
