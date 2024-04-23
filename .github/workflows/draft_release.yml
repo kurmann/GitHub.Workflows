@@ -1,22 +1,13 @@
 name: Draft Release
 on:
   push:
-    branches:
-      - main
-  workflow_dispatch:
-    inputs:
-      version_increment:
-        description: 'Which part of the version to increment: major, minor, or patch'
-        required: true
-        default: 'minor'
+
+env:
+  VERSION_INCREMENT: 'minor'  # Alternativ: major, patch
 
 jobs:
   read_release_data:
     runs-on: ubuntu-latest
-    outputs:
-      release_version: ${{ steps.get_release.outputs.release_version }}
-      release_tag_name: ${{ steps.get_release.outputs.release_tag_name }}
-      release_url: ${{ steps.get_release.outputs.release_url }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -29,11 +20,12 @@ jobs:
           RELEASE_NAME=$(echo "$RELEASE_JSON" | jq -r '.name')
           RELEASE_URL=$(echo "$RELEASE_JSON" | jq -r '.url')
           RELEASE_VERSION="${RELEASE_TAG_NAME#"v"}"
-          echo "::set-output name=release_version::$RELEASE_VERSION"
-          echo "::set-output name=release_tag_name::$RELEASE_TAG_NAME"
-          echo "::set-output name=release_url::$RELEASE_URL"
+          echo "release_version=$RELEASE_VERSION" >> "$GITHUB_ENV"
+          echo "release_tag_name=$RELEASE_TAG_NAME" >> "$GITHUB_ENV"
+          echo "release_url=$RELEASE_URL" >> "$GITHUB_ENV"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        
 
   calculate_next_version:
     needs: read_release_data
@@ -46,10 +38,7 @@ jobs:
           MAJOR=${VERSION_PARTS[0]}
           MINOR=${VERSION_PARTS[1]}
           PATCH=${VERSION_PARTS[2]}
-          VERSION_INCREMENT=${{ github.event.inputs.version_increment }}
-          if [ -z "$VERSION_INCREMENT" ]; then
-            VERSION_INCREMENT="minor"
-          fi
+          VERSION_INCREMENT=$VERSION_INCREMENT
           if [[ "$VERSION_INCREMENT" == "major" ]]; then
             MAJOR=$((MAJOR + 1))
             MINOR=0
@@ -62,13 +51,24 @@ jobs:
           fi
           NEXT_VERSION="$MAJOR.$MINOR.$PATCH"
           echo "NEXT_VERSION=$NEXT_VERSION" >> $GITHUB_ENV
-
+    
+      - name: Print next version
+        env:
+          NEXT_VERSION: ${{ env.NEXT_VERSION }}
+        run: |
+          echo "Next Version: $NEXT_VERSION"
 
   draft_release:
     needs: calculate_next_version
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+
+      - name: Print next version
+        env:
+          NEXT_VERSION: ${{ env.NEXT_VERSION }}
+        run: |
+          echo "Next Version: $NEXT_VERSION"
 
       - name: Run Release Drafter
         uses: release-drafter/release-drafter@v6
