@@ -23,6 +23,8 @@ jobs:
           echo "::set-output name=release_tag_name::$RELEASE_TAG_NAME"
           echo "::set-output name=release_body::$RELEASE_BODY"
           echo "::set-output name=release_url::$RELEASE_URL"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     outputs:
       release_version: ${{ steps.get_release.outputs.release_version }}
       release_tag_name: ${{ steps.get_release.outputs.release_tag_name }}
