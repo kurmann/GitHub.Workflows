@@ -16,7 +16,7 @@ jobs:
           RELEASE_TAG_NAME=$(echo "$RELEASE_JSON" | jq -r '.tagName')
           RELEASE_NAME=$(echo "$RELEASE_JSON" | jq -r '.name')
           RELEASE_BODY=$(echo "$RELEASE_JSON" | jq -r '.body' | jq -sRr @json)
-          RELEASE_VERSION="${RELEASE_NAME#"v"}"  # Entfernt das 'v' am Anfang, falls vorhanden
+          RELEASE_VERSION="${RELEASE_TAG_NAME#"v"}"  # Entfernt das 'v' am Anfang, falls vorhanden
           echo "Release Tag Name: $RELEASE_TAG_NAME"
           echo "Release Name: $RELEASE_NAME"
           echo "Release Version: $RELEASE_VERSION"
