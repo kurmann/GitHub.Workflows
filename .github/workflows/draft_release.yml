@@ -4,8 +4,6 @@ on:
 
 env:
   VERSION_INCREMENT: 'minor'  # Alternativ: major, patch
-  LATEST_VERSION: ''         # Wird im Job 'read_release_data' gesetzt
-  NEXT_VERSION: ''           # Wird im Job 'calculate_next_version' gesetzt
 
 jobs:
   read_release_data:
@@ -22,18 +20,20 @@ jobs:
           RELEASE_NAME=$(echo "$RELEASE_JSON" | jq -r '.name')
           RELEASE_URL=$(echo "$RELEASE_JSON" | jq -r '.url')
           LATEST_VERSION="${RELEASE_TAG_NAME#"v"}" # Remove leading 'v'
-          echo "release_version=$LATEST_VERSION"
-          echo "release_tag_name=$RELEASE_TAG_NAME"
-          echo "release_url=$RELEASE_URL"
+          echo "LATEST_VERSION=$LATEST_VERSION" >> $GITHUB_ENV
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    outputs:
+      latest_version: ${{ steps.get_release.outputs.latest_version }}
 
   calculate_next_version:
     needs: read_release_data
     runs-on: ubuntu-latest
     steps:
       - name: Calculate next version
+        id: calculate_version
         run: |
+          LATEST_VERSION=${{ needs.read_release_data.outputs.latest_version }}
           IFS='.' read -ra VERSION_PARTS <<< "$LATEST_VERSION"
           MAJOR=${VERSION_PARTS[0]}
           MINOR=${VERSION_PARTS[1]}
@@ -50,10 +50,8 @@ jobs:
           fi
           NEXT_VERSION="$MAJOR.$MINOR.$PATCH"
           echo "NEXT_VERSION=$NEXT_VERSION" >> $GITHUB_ENV
-
-      - name: Print next version
-        run: |
-          echo "Next Version: $NEXT_VERSION"
+    outputs:
+      next_version: ${{ steps.calculate_version.outputs.next_version }}
 
   draft_release:
     needs: calculate_next_version
@@ -61,7 +59,7 @@ jobs:
     steps:
       - name: Print next version for verification
         run: |
-          echo "Next Version: $NEXT_VERSION"
+          echo "Next Version: ${{ needs.calculate_next_version.outputs.next_version }}"
 
       - name: Run Release Drafter
         uses: release-drafter/release-drafter@v6
@@ -69,4 +67,4 @@ jobs:
           config-name: 'release-drafter-config.yml'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          NEXT_VERSION: ${{ env.NEXT_VERSION }}
+          NEXT_VERSION: ${{ needs.calculate_next_version.outputs.next_version }}
