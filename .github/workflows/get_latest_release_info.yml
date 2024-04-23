@@ -3,6 +3,10 @@ name: Manual Release Data Test
 on:
   workflow_dispatch:  # Erlaubt manuelles Auslösen des Workflows über die GitHub-Oberfläche
   workflow_call:
+    secrets:
+      token:
+        description: 'A GitHub token'
+        required: true
     outputs:
       release_version:
         description: 'The version of the release without the leading "v".'
