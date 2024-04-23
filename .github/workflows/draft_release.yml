@@ -9,22 +9,15 @@ jobs:
   read_release_data:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-    
       - name: Get latest release
-        id: get_release
+        id: get_latest_release
         run: |
           RELEASE_JSON=$(gh release view --json tagName,name,url)
           RELEASE_TAG_NAME=$(echo "$RELEASE_JSON" | jq -r '.tagName')
-          RELEASE_NAME=$(echo "$RELEASE_JSON" | jq -r '.name')
-          RELEASE_URL=$(echo "$RELEASE_JSON" | jq -r '.url')
           LATEST_VERSION="${RELEASE_TAG_NAME#"v"}" # Remove leading 'v'
           echo "LATEST_VERSION=$LATEST_VERSION" >> $GITHUB_ENV
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     outputs:
-      latest_version: ${{ steps.get_release.outputs.latest_version }}
+      latest_version: ${{ env.LATEST_VERSION }}
 
   calculate_next_version:
     needs: read_release_data
@@ -51,7 +44,7 @@ jobs:
           NEXT_VERSION="$MAJOR.$MINOR.$PATCH"
           echo "NEXT_VERSION=$NEXT_VERSION" >> $GITHUB_ENV
     outputs:
-      next_version: ${{ steps.calculate_version.outputs.next_version }}
+      next_version: ${{ env.NEXT_VERSION }}
 
   draft_release:
     needs: calculate_next_version
