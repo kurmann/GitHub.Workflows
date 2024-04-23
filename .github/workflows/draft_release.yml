@@ -17,6 +17,8 @@ jobs:
           LATEST_VERSION="${RELEASE_TAG_NAME#"v"}" # Remove leading 'v'
           echo "LATEST_VERSION=$LATEST_VERSION" >> $GITHUB_ENV
           echo "::set-output name=latest_version::$LATEST_VERSION"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     outputs:
       latest_version: ${{ steps.get_latest_release.outputs.latest_version }}
 
