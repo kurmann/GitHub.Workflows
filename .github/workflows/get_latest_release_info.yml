@@ -1,4 +1,4 @@
-name: Manual Release Data Test
+name: Get Latest Release Info
 
 on:
   workflow_dispatch:  # Erlaubt manuelles Auslösen des Workflows über die GitHub-Oberfläche
