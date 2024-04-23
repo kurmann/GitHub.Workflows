@@ -10,23 +10,26 @@ Um einen Workflow aus diesem Repository zu verwenden, kopiere die gewünschte `.
 
 ## Verfügbare Workflows
 
-### Release Drafter
+## Draft Release Workflow
 
-Der Release Drafter Workflow automatisiert das Erstellen von Release-Entwürfen, indem er Änderungen, die durch Pull Requests eingeführt werden, aufzeichnet und in einem formatierten Release-Dokument zusammenfasst. Dieser Workflow wird direkt im Repository implementiert.
+### Über den Draft Release Workflow
 
-#### Wie man den Workflow implementiert
+Der Draft Release Workflow ist speziell entwickelt, um den Prozess der Erstellung von Release-Entwürfen zu automatisieren. Durch die Verwendung des Release Drafter wird basierend auf den neuesten Commits und Pull Requests ein formatierter Entwurf für das nächste Release erstellt. Dieser Workflow hilft dabei, den Überblick über wichtige Änderungen zu behalten und stellt sicher, dass alle relevanten Informationen im Changelog des nächsten Releases enthalten sind.
 
-**Schritte zur Implementierung des Release Drafter in dein Projekt:**
+### Wie der Workflow funktioniert
 
-1. Kopiere die `release_drafter.yml` aus diesem Repository in das `.github/workflows`-Verzeichnis deines eigenen Repositories.
-2. Passe die `release-drafter-config.yml` bei Bedarf an, um sie an die spezifischen Anforderungen deines Projekts anzupassen.
-3. Stelle sicher, dass du die `GITHUB_TOKEN` Secret in deinem Repository konfiguriert hast, um GitHub Actions zu ermöglichen, auf das Repository zuzugreifen.
+Der Workflow wird automatisch ausgelöst, wenn Änderungen auf den `main`-Branch gepusht werden. Er besteht aus zwei Hauptteilen: dem Erstellen des Release-Entwurfs und dem Extrahieren der Versionsnummer aus dem Tag, die für nachfolgende Schritte verwendet wird.
 
-#### YAML-Konfiguration des Workflows
+### Schritte des Workflows
+
+1. **Run Release Drafter:** Dieser Schritt nutzt die `release-drafter/release-drafter@v6` GitHub Action, um auf Basis der Änderungen seit dem letzten Release Release-Notizen zu generieren. Die Konfiguration für den Release Drafter wird aus der `release-drafter-config.yml` Datei gelesen.
+
+2. **Remove leading 'v' from tag name and store in release_version:** Hier wird das führende 'v' aus dem Tag-Namen entfernt, um die reine Versionsnummer zu extrahieren und diese in einer Umgebungsvariable zu speichern. Dies erleichtert die weitere Verwendung in anderen Prozessen oder Workflows.
+
+### YAML-Konfiguration des Workflows
 
 ```yaml
-name: 'Release Drafter'
-
+name: Draft Release
 on:
   push:
     branches:
@@ -36,24 +39,46 @@ jobs:
   draft_release:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-
       - name: Run Release Drafter
         uses: release-drafter/release-drafter@v6
         with:
           config-name: 'release-drafter-config.yml'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Remove leading 'v' from tag name and store in release_version
+        run: |
+          TAG_NAME="${{ steps.release_drafter.outputs.tag_name }}"
+          echo "Tag name: $TAG_NAME"
+          VERSION="${TAG_NAME#v}"
+          echo "VERSION=$VERSION" >> $GITHUB_ENV
+
+    outputs:
+      release_id: ${{ steps.release_drafter.outputs.id }}
+      release_name: ${{ steps.release_drafter.outputs.name }}
+      release_tag_name: ${{ steps.release_drafter.outputs.tag_name }}
+      release_body: ${{ steps.release_drafter.outputs.body }}
+      release_html_url: ${{ steps.release_drafter.outputs.html_url }}
+      release_upload_url: ${{ steps.release_drafter.outputs.upload_url }}
+      release_version: ${{ env.VERSION }}
+
+  print_release_info:
+    needs: draft_release
+    runs-on: ubuntu-latest
+    steps:
+      - name: Print Release Drafter outputs
+        run: |
+          echo "Release ID: ${{ needs.draft_release.outputs.release_id }}"
+          echo "Release Name: ${{ needs.draft_release.outputs.release_name }}"
+          echo "Release Tag Name: ${{ needs.draft_release.outputs.release_tag_name }}"
+          echo "Release Body: ${{ needs.draft_release.outputs.release_body }}"
+          echo "Release HTML URL: ${{ needs.draft_release.outputs.release_html_url }}"
+          echo "Release Version: ${{ needs.draft_release.outputs.release_version }}"
 ```
 
-#### Funktionalität des Workflows
+### Anwendung des Workflows
 
-Dieser Workflow wird direkt in dein Repository integriert und kann nach Bedarf angepasst werden. Er wird automatisch ausgelöst, wenn Commits in den `main` Branch gepusht werden, und erstellt einen Release-Entwurf basierend auf den Änderungen, die in diesen Commits vorgenommen wurden.
-
-#### Wichtige Hinweise
-
-- Überprüfe und aktualisiere die Pfade in der `release_drafter.yml`, falls notwendig, um sicherzustellen, dass sie korrekt auf die `release-drafter-config.yml` verweisen.
-- Dieser Workflow setzt voraus, dass du die GitHub CLI im Workflow nutzen kannst, was durch das `actions/checkout@v4` und die `GITHUB_TOKEN`-Umgebungsvariable ermöglicht wird.
+Um diesen Workflow in deinem Projekt zu verwenden, füge die oben gezeigte YAML-Konfiguration und die notwendige `release-drafter-config.yml` Datei in das `.github/workflows`-Verzeichnis deines Repositories ein. Stelle sicher, dass der `GITHUB_TOKEN` in den Secrets deines Repositories gespeichert ist, um GitHub Actions den Zugriff auf das Repository zu ermöglichen.
 
 ### Get Latest Release Info
 
