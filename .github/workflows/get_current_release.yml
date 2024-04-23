@@ -22,6 +22,7 @@ jobs:
           echo "Release Name: $RELEASE_NAME"
           echo "Release Version: $RELEASE_VERSION"
           echo "Release Body: $RELEASE_BODY"
+          echo "Release URL: $RELEASE_URL"
           echo "RELEASE_TAG_NAME=$RELEASE_TAG_NAME" >> $GITHUB_ENV
           echo "RELEASE_NAME=$RELEASE_NAME" >> $GITHUB_ENV
           echo "RELEASE_BODY=$RELEASE_BODY" >> $GITHUB_ENV
