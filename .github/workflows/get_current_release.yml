@@ -1,0 +1,25 @@
+# .github/workflows/get_current_release.yml
+name: Print Current Release
+
+on:
+  push:
+
+jobs:
+  get_release:
+    runs-on: ubuntu-latest
+    steps:
+      
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Get latest release
+      id: get_release
+      run: |
+        RELEASE_INFO=$(gh release view --json tagName,name,body -q '.[0]')
+        echo "RELEASE_INFO=$RELEASE_INFO" >> $GITHUB_ENV
+      env:
+        GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+    - name: Print release information
+      run: |
+        echo "Release information: $RELEASE_INFO"
