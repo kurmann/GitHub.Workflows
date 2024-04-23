@@ -1,6 +1,8 @@
 name: Draft Release
 on:
-  push:
+  pull_request:
+    branches:
+      - main
 
 env:
   VERSION_INCREMENT: 'minor'  # Alternativ: major, patch
@@ -24,6 +26,7 @@ jobs:
       release_body: ${{ steps.release_drafter.outputs.body }}
       release_html_url: ${{ steps.release_drafter.outputs.html_url }}
       release_upload_url: ${{ steps.release_drafter.outputs.upload_url }}
+      release_version: ${${{ steps.release_drafter.outputs.tag_name }}#v}
 
   print_release_info:
     needs: draft_release
@@ -36,12 +39,4 @@ jobs:
           echo "Release Tag Name: ${{ needs.draft_release.outputs.release_tag_name }}"
           echo "Release Body: ${{ needs.draft_release.outputs.release_body }}"
           echo "Release HTML URL: ${{ needs.draft_release.outputs.release_html_url }}"
-      - name: Remove leading 'v'
-        id: remove_leading_v
-        run: |
-          VERSION=${{ needs.draft_release.outputs.release_tag_name }}
-          echo "VERSION=${VERSION#v}" >> $GITHUB_ENV
-    
-      - name: Use version without leading 'v'
-        run: |
-          echo "Version: $VERSION"
+          echo "Release Version: ${{ needs.draft_release.outputs.release_version }}"
