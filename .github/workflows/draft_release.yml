@@ -1,5 +1,4 @@
-name: Get Latest Release Info
-
+name: Draft Release
 on:
   workflow_dispatch:
     inputs:
