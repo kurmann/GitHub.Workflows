@@ -8,18 +8,19 @@ jobs:
   get_release:
     runs-on: ubuntu-latest
     steps:
-      
+
     - name: Checkout code
       uses: actions/checkout@v4
 
     - name: Get latest release
-      id: get_release
-      run: |
-        RELEASE_INFO=$(gh release view --json tagName,name,body -q '.[0]')
-        echo "RELEASE_INFO=$RELEASE_INFO" >> $GITHUB_ENV
-      env:
-        GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      id: latest_release
+      uses: kaliber5/action-get-release@v1
+      with:
+        token: ${{ github.token }}
+        latest: true
 
     - name: Print release information
       run: |
-        echo "Release information: $RELEASE_INFO"
+        echo "Release version: ${{ steps.latest_release.outputs.version }}"
+        echo "Release title: ${{ steps.latest_release.outputs.name }}"
+        echo "Release body: ${{ steps.latest_release.outputs.body }}"
