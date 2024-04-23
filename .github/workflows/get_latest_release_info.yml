@@ -29,16 +29,6 @@ jobs:
       release_tag_name: ${{ steps.get_release.outputs.release_tag_name }}
       release_url: ${{ steps.get_release.outputs.release_url }}
 
-  second_job:
-    needs: read_and_print_release_data
-    runs-on: ubuntu-latest
-    steps:
-      - name: Print outputs
-        run: |
-          echo "Release Version: ${{ needs.read_and_print_release_data.outputs.release_version }}"
-          echo "Release Tag Name: ${{ needs.read_and_print_release_data.outputs.release_tag_name }}"
-          echo "Release URL: ${{ needs.read_and_print_release_data.outputs.release_url }}"
-
   calculate_next_version:
     needs: read_and_print_release_data
     runs-on: ubuntu-latest
