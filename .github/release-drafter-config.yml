@@ -1,16 +1,9 @@
 # Konfigurationsdatei für das Release-Drafter-Tool.
 # release-drafter-config.yml
 
-# Setzt das Format für den Namen des Release-Tags.
-# $NEXT_PATCH_VERSION wird durch die nächste Patch-Version ersetzt,
-# basierend auf den analysierten Commits seit dem letzten Release.
-name-template: 'v$NEXT_PATCH_VERSION' # Automatisch erhöhte Versionsnummer
+name-template: 'v$RESOLVED_VERSION' # Automatisch erhöhte Versionsnummer
 
-# Setzt das Format für den Git-Tag, der dem Release zugeordnet wird.
-# Auch hier wird $NEXT_PATCH_VERSION automatisch basierend auf den analysierten Commits aktualisiert.
-tag-template: 'v$NEXT_PATCH_VERSION' # Automatisch erhöhte Versionsnummer
-
-version-template: "$MAJOR.$MINOR.0" # Setzt das Format für die Versionsnummer
+tag-template: 'v$RESOLVED_VERSION' # Automatisch erhöhte Versionsnummer
 
 # Definiert die Kategorien, die im Changelog angezeigt werden. Jede Kategorie kann
 # durch ein oder mehrere Labels identifiziert werden. Pull Requests, die diese Labels verwenden,
