@@ -10,6 +10,8 @@ name-template: 'v$NEXT_PATCH_VERSION' # Automatisch erhöhte Versionsnummer
 # Auch hier wird $NEXT_PATCH_VERSION automatisch basierend auf den analysierten Commits aktualisiert.
 tag-template: 'v$NEXT_PATCH_VERSION' # Automatisch erhöhte Versionsnummer
 
+version-template: "$MAJOR.$MINOR.0" # Setzt das Format für die Versionsnummer
+
 # Definiert die Kategorien, die im Changelog angezeigt werden. Jede Kategorie kann
 # durch ein oder mehrere Labels identifiziert werden. Pull Requests, die diese Labels verwenden,
 # werden automatisch unter der entsprechenden Kategorie im Changelog aufgeführt.
