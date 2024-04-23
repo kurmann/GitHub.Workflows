@@ -1,6 +1,8 @@
-name: Get Latest Release Info
-
+name: Draft Release
 on:
+  push:
+    branches:
+      - main
   workflow_dispatch:
     inputs:
       version_increment:
@@ -61,3 +63,19 @@ jobs:
           echo "next_version=$NEXT_VERSION" >> "$GITHUB_OUTPUT"
       - name: Print next version
         run: 'echo "Next Version: ${{ steps.calculate_version.outputs.next_version }}"'
+    outputs:
+      next_version: ${{ steps.calculate_version.outputs.next_version }}
+
+  draft_release:
+    needs: calculate_next_version
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Run Release Drafter
+        uses: release-drafter/release-drafter@v6
+        with:
+          config-name: 'release-drafter-config.yml'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NEXT_VERSION: ${{ needs.calculate_next_version.outputs.next_version }}
