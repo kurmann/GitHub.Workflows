@@ -11,7 +11,7 @@ on:
         default: 'minor'
 
 jobs:
-  read_and_print_release_data:
+  read_release_data:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -37,13 +37,13 @@ jobs:
       release_url: ${{ steps.get_release.outputs.release_url }}
 
   calculate_next_version:
-    needs: read_and_print_release_data
+    needs: read_release_data
     runs-on: ubuntu-latest
     steps:
       - name: Calculate next version
         id: calculate_version
         run: |
-          LATEST_VERSION=${{ needs.read_and_print_release_data.outputs.release_version }}
+          LATEST_VERSION=${{ needs.read_release_data.outputs.release_version }}
           IFS='.' read -ra VERSION_PARTS <<< "$LATEST_VERSION"
           MAJOR=${VERSION_PARTS[0]}
           MINOR=${VERSION_PARTS[1]}
