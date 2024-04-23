@@ -38,3 +38,21 @@ jobs:
           echo "Release Version: ${{ needs.read_and_print_release_data.outputs.release_version }}"
           echo "Release Tag Name: ${{ needs.read_and_print_release_data.outputs.release_tag_name }}"
           echo "Release URL: ${{ needs.read_and_print_release_data.outputs.release_url }}"
+
+  calculate_next_version:
+    needs: read_and_print_release_data
+    runs-on: ubuntu-latest
+    steps:
+      - name: Calculate next version
+        id: calculate_version
+        run: |
+          LATEST_VERSION=${{ needs.read_and_print_release_data.outputs.release_version }}
+          IFS='.' read -ra VERSION_PARTS <<< "$LATEST_VERSION"
+          MAJOR=${VERSION_PARTS[0]}
+          MINOR=${VERSION_PARTS[1]}
+          PATCH=${VERSION_PARTS[2]}
+          NEXT_MINOR=$((MINOR + 1))
+          NEXT_VERSION="$MAJOR.$NEXT_MINOR.$PATCH"
+          echo "next_version=$NEXT_VERSION" >> "$GITHUB_OUTPUT"
+      - name: Print next version
+        run: 'echo "Next Version: ${{ steps.calculate_version.outputs.next_version }}"'
