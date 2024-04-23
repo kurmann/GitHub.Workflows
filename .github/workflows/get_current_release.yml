@@ -17,7 +17,7 @@ jobs:
       run: |
         RELEASE_JSON=$(gh release view --json tagName,body)
         RELEASE_NAME=$(echo "$RELEASE_JSON" | jq -r '.tagName')
-        RELEASE_BODY=$(echo "$RELEASE_JSON" | jq -r '.body')
+        RELEASE_BODY=$(echo "$RELEASE_JSON" | jq -r '.body' | jq -sRr @json)
         echo "RELEASE_NAME=$RELEASE_NAME" >> $GITHUB_ENV
         echo "RELEASE_BODY=$RELEASE_BODY" >> $GITHUB_ENV
       env:
