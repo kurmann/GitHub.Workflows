@@ -4,9 +4,15 @@ on:
   workflow_dispatch:  # Erlaubt manuelles Auslösen des Workflows über die GitHub-Oberfläche
   workflow_call:
     outputs:
-      latest_release_version:
+      release_version:
         description: 'The version of the release without the leading "v".'
         value: ${{ jobs.read_and_print_release_data.result.LATEST_RELEASE_VERSION }}
+      release_tag_name:
+        description: 'The tag name of the release, usually starting with "v".'
+        value: ${{ jobs.read_and_print_release_data.result.RELEASE_TAG_NAME }}
+      release_url:
+        description: 'The URL of the release.'
+        value: ${{ jobs.read_and_print_release_data.result.RELEASE_URL }}
 
 jobs:
   read_and_print_release_data:
