@@ -1,4 +1,4 @@
-# .github/workflows/release-drafter.yml im zentralen Repository
+# release_drafter.yml
 name: 'Release Drafter'
 
 on:

@@ -12,35 +12,48 @@ Um einen Workflow aus diesem Repository zu verwenden, kopiere die gewünschte `.
 
 ### Release Drafter
 
-Der Release Drafter Workflow automatisiert das Erstellen von Release-Entwürfen, indem er Änderungen, die durch Pull Requests eingeführt werden, aufzeichnet und in einem formatierten Release-Dokument zusammenfasst.
+Der Release Drafter Workflow automatisiert das Erstellen von Release-Entwürfen, indem er Änderungen, die durch Pull Requests eingeführt werden, aufzeichnet und in einem formatierten Release-Dokument zusammenfasst. Dieser Workflow wird direkt im Repository implementiert.
 
-#### Wie man den Workflow manuell integriert
+#### Wie man den Workflow implementiert
 
-**Schritte zur manuellen Integration des Release Drafter in dein Projekt:**
+**Schritte zur Implementierung des Release Drafter in dein Projekt:**
 
-1. Kopiere die `release-drafter.yml` und die `release-drafter-config.yml` aus diesem Repository in das `.github/workflows`-Verzeichnis deines eigenen Repositories.
+1. Kopiere die `release_drafter.yml` aus diesem Repository in das `.github/workflows`-Verzeichnis deines eigenen Repositories.
 2. Passe die `release-drafter-config.yml` bei Bedarf an, um sie an die spezifischen Anforderungen deines Projekts anzupassen.
-3. Füge den Workflow in deine CI/CD-Pipeline ein, indem du folgenden Job in deine GitHub Actions Workflow-Datei einfügst:
+3. Stelle sicher, dass du die `GITHUB_TOKEN` Secret in deinem Repository konfiguriert hast, um GitHub Actions zu ermöglichen, auf das Repository zuzugreifen.
+
+#### YAML-Konfiguration des Workflows
 
 ```yaml
+name: 'Release Drafter'
+
+on:
+  push:
+    branches:
+      - main
+
 jobs:
-  release_draft:
+  draft_release:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+
       - name: Run Release Drafter
-        uses: ./.github/workflows/release-drafter.yml
+        uses: release-drafter/release-drafter@v6
+        with:
+          config-name: 'release-drafter-config.yml'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 ```
 
 #### Funktionalität des Workflows
 
-Dieser Workflow wird manuell in dein Repository integriert und kann nach Bedarf angepasst werden. Er wird automatisch ausgelöst, wenn Pull Requests in den `main` Branch gemerged werden, und erstellt einen Release-Entwurf basierend auf den Änderungen, die in diesen Pull Requests vorgenommen wurden.
+Dieser Workflow wird direkt in dein Repository integriert und kann nach Bedarf angepasst werden. Er wird automatisch ausgelöst, wenn Commits in den `main` Branch gepusht werden, und erstellt einen Release-Entwurf basierend auf den Änderungen, die in diesen Commits vorgenommen wurden.
 
-#### Warum der manuelle Kopierweg beim Release Drafter?
+#### Wichtige Hinweise
 
-Der manuelle Kopierweg ermöglicht es jedem Projekt, eigene, angepasste Versionen der Workflow- und Konfigurationsdateien zu pflegen. Dies bietet Flexibilität und Kontrolle, indem es jedem Team ermöglicht wird, ihre Tools direkt und unabhängig zu verwalten, ohne von zentralen Änderungen abhängig zu sein.
+- Überprüfe und aktualisiere die Pfade in der `release_drafter.yml`, falls notwendig, um sicherzustellen, dass sie korrekt auf die `release-drafter-config.yml` verweisen.
+- Dieser Workflow setzt voraus, dass du die GitHub CLI im Workflow nutzen kannst, was durch das `actions/checkout@v4` und die `GITHUB_TOKEN`-Umgebungsvariable ermöglicht wird.
 
 ### Get Latest Release Info
 
