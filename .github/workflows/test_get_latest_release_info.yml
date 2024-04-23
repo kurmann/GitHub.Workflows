@@ -8,3 +8,13 @@ jobs:
     uses: ./.github/workflows/get_latest_release_info.yml
     secrets:
       token: ${{ secrets.GITHUB_TOKEN }}
+
+  another_job:
+    needs: test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Print outputs
+        run: |
+          echo "Release version: ${{ needs.test.outputs.release_version }}"
+          echo "Release tag name: ${{ needs.test.outputs.release_tag_name }}"
+          echo "Release URL: ${{ needs.test.outputs.release_url }}"
