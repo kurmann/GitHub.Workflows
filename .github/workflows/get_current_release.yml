@@ -1,29 +1,23 @@
-# .github/workflows/get_current_release.yml
-name: Print Current Release
+name: Manual Release Data Test
 
 on:
-  push:
+  workflow_dispatch:  # Erlaubt manuelles Auslösen des Workflows über die GitHub-Oberfläche
 
 jobs:
-  get_release:
+  test_release_data:
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
 
-    - name: Checkout code
-      uses: actions/checkout@v2
-
-    - name: Get latest release
-      id: get_release
-      run: |
-        RELEASE_JSON=$(gh release view --json tagName,body)
-        RELEASE_NAME=$(echo "$RELEASE_JSON" | jq -r '.tagName')
-        RELEASE_BODY=$(echo "$RELEASE_JSON" | jq -r '.body' | jq -sRr @json)
-        echo "RELEASE_NAME=$RELEASE_NAME" >> $GITHUB_ENV
-        echo "RELEASE_BODY=$RELEASE_BODY" >> $GITHUB_ENV
-      env:
-        GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-    - name: Print release information
-      run: |
-        echo "Release name (version): $RELEASE_NAME"
-        echo "Release body: $RELEASE_BODY"
+      - name: Get latest release information
+        run: |
+          RELEASE_JSON=$(gh release view --json tagName,title,body)
+          RELEASE_TAG_NAME=$(echo "$RELEASE_JSON" | jq -r '.tagName')
+          RELEASE_TITLE=$(echo "$RELEASE_JSON" | jq -r '.title')
+          RELEASE_BODY=$(echo "$RELEASE_JSON" | jq -r '.body' | jq -sRr @json)
+          echo "Release Tag Name: $RELEASE_TAG_NAME"
+          echo "Release Title: $RELEASE_TITLE"
+          echo "Release Body: $RELEASE_BODY"
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
