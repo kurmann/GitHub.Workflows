@@ -1,0 +1,11 @@
+name: Test Get Latest Release Info
+
+on:
+    workflow_dispatch: 
+
+jobs:
+    read_release_info:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Get latest release info
+              uses: ./.github/workflows/get_latest_release_info.yml
