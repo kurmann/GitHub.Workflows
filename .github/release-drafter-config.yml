@@ -1,10 +1,6 @@
 # Konfigurationsdatei für das Release-Drafter-Tool.
 # release-drafter-config.yml
 
-name-template: 'v${{ env.NEXT_VERSION }}' # Name des Releases wird aus der Umgebungsvariable NEXT_VERSION abgeleitet.
-tag-template: 'v${{ env.NEXT_VERSION }}' # Tag des Releases wird aus der Umgebungsvariable NEXT_VERSION abgeleitet.
-
-
 # Definiert die Kategorien, die im Changelog angezeigt werden. Jede Kategorie kann
 # durch ein oder mehrere Labels identifiziert werden. Pull Requests, die diese Labels verwenden,
 # werden automatisch unter der entsprechenden Kategorie im Changelog aufgeführt.

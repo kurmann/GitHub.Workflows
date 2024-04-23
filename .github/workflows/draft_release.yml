@@ -72,4 +72,7 @@ jobs:
           config-name: 'release-drafter-config.yml'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          NEXT_VERSION: ${{ needs.calculate_next_version.outputs.next_version }}
+          VERSION: ${{ needs.calculate_next_version.outputs.next_version }}
+          NAME: v${{ needs.calculate_next_version.outputs.next_version }}
+          TAG: v${{ needs.calculate_next_version.outputs.next_version }}
+
