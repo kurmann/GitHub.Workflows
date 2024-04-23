@@ -4,6 +4,8 @@ on:
 
 env:
   VERSION_INCREMENT: 'minor'  # Alternativ: major, patch
+  LATEST_VERSION: '' # Wird automatisch gesetzt
+  NEXT_VERSION: '' # Wird automatisch gesetzt
 
 jobs:
   read_release_data:
