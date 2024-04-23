@@ -10,17 +10,20 @@ jobs:
     steps:
 
     - name: Checkout code
-      uses: actions/checkout@v4
+      uses: actions/checkout@v2
 
     - name: Get latest release
-      id: latest_release
-      uses: kaliber5/action-get-release@v1
-      with:
-        token: ${{ github.token }}
-        latest: true
+      id: get_release
+      run: |
+        RELEASE_JSON=$(gh release view --json tagName,body)
+        RELEASE_NAME=$(echo "$RELEASE_JSON" | jq -r '.tagName')
+        RELEASE_BODY=$(echo "$RELEASE_JSON" | jq -r '.body')
+        echo "RELEASE_NAME=$RELEASE_NAME" >> $GITHUB_ENV
+        echo "RELEASE_BODY=$RELEASE_BODY" >> $GITHUB_ENV
+      env:
+        GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
     - name: Print release information
       run: |
-        echo "Release version: ${{ steps.latest_release.outputs.version }}"
-        echo "Release title: ${{ steps.latest_release.outputs.name }}"
-        echo "Release body: ${{ steps.latest_release.outputs.body }}"
+        echo "Release name (version): $RELEASE_NAME"
+        echo "Release body: $RELEASE_BODY"
