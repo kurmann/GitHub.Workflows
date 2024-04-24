@@ -141,6 +141,50 @@ version-resolver:
 
 - **`version-resolver`:** Bestimmt, wie die Versionsnummer basierend auf den angehängten Labels erhöht wird. Es gibt Optionen für Major-, Minor- und Patch-Updates. Der `default` wird verwendet, wenn keine spezifischen Labels gefunden werden, die eine andere Art der Versionserhöhung bestimmen.
 
+### Beschreibung der Workflow-Outputs
+
+Nachdem der Release Drafter Workflow ausgeführt wurde, generiert er mehrere Outputs, die für weitere Schritte oder für Berichtszwecke verwendet werden können. Hier ist eine Beschreibung jedes Outputs, basierend auf dem vorgegebenen Beispiel:
+
+#### Output Details
+
+- **Release ID:** Die eindeutige Identifikationsnummer des erstellten Releases. Diese Nummer ist spezifisch für GitHub und wird verwendet, um das Release in weiteren API-Aufrufen oder Aktionen zu referenzieren.
+  - **Beispiel:** `152526037`
+
+- **Release Name:** Der Name des Releases, wie er im GitHub Repository erscheint. Dieser Name ist typischerweise identisch mit dem Tag-Namen, kann aber zusätzliche Informationen enthalten, je nach Konfiguration.
+  - **Beispiel:** `v0.5.1`
+
+- **Release Tag Name:** Der Git-Tag, der mit dem Release verknüpft ist. Tags markieren spezifische Punkte in der Versionsgeschichte eines Repositories und sind häufig nach der Versionsnummer benannt.
+  - **Beispiel:** `v0.5.1`
+
+- **Release Body:** Der Inhalt der Release-Notizen, wie er vom Release Drafter generiert wird. Dies umfasst typischerweise eine Zusammenfassung der Änderungen, Verbesserungen und Fehlerbehebungen, die in das Release aufgenommen wurden, jeweils formatiert mit Details zu den Pull Requests und den beteiligten Beitragenden.
+  - **Beispiel:**
+    ```
+    ## Änderungen
+    * Contributors wieder auf Release Drafter-Standard gesetzt (#125) @kurmann
+
+    ## Dokumentation
+
+    * Verwende Release Drafter Standard-Template (#127) @kurmann
+    ```
+
+- **Release HTML URL:** Die URL zur Release-Seite auf GitHub, wo Benutzer Details zum Release einsehen, Downloads finden und weitere Aktionen ausführen können.
+  - **Beispiel:** `https://github.com/kurmann/GitHub.Workflows/releases/tag/untagged-876ddb835dd6d3661a5d`
+
+- **Release Version:** Die Versionsnummer des Releases, die verwendet wird, um die Reihenfolge und den Fortschritt der Software-Versionierung zu dokumentieren.
+  - **Beispiel:** `0.5.1`
+
+#### Nutzung der Outputs
+
+Diese Outputs können in verschiedenen Kontexten genutzt werden:
+
+- **Automatisierung weiterer Schritte:** Verwenden Sie die Release ID und andere Outputs, um automatisierte Prozesse wie Deployments, Benachrichtigungen oder andere Workflows auszulösen.
+
+- **Berichterstattung und Dokumentation:** Integrieren Sie die Informationen in Release-Berichte, automatische E-Mails oder andere Dokumentationsressourcen, um Stakeholder über neue Releases zu informieren.
+
+- **Audit und Nachverfolgung:** Speichern Sie die Outputs für Auditzwecke oder als Teil eines Prozesses zur Nachverfolgung von Änderungen und Releases in Ihrer Software.
+
+Diese Outputs bieten wertvolle Informationen, die dazu beitragen, den Software-Release-Prozess transparent, nachvollziehbar und automatisiert zu gestalten.
+
 #### Anwendung und Best Practices
 
 - **Anpassung:** Sie können die Labels in den Kategorien und im `version-resolver` nach Bedarf anpassen, um sie an die spezifischen Anforderungen Ihres Projekts anzupassen.
