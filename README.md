@@ -10,6 +10,11 @@ Um einen Workflow aus diesem Repository zu verwenden, kopiere die gewünschte `.
 
 ## Verfügbare Workflows
 
+
+
+
+
+
 ## Draft Release Workflow
 
 ### Über den Draft Release Workflow
@@ -145,6 +150,12 @@ version-resolver:
 - **Sicherheit:** Verwenden Sie sichere Secrets für den Zugriff auf `GITHUB_TOKEN`, um die Aktionen des Release Drafter auszuführen.
 
 Mit dieser Konfiguration können Sie einen effizienten und automatisierten Prozess für die Erstellung Ihrer Release-Notizen implementieren, der Ihnen hilft, den Überblick über wichtige Änderungen zu bewahren und die Kommunikation mit Ihren Stakeholdern zu verbessern.
+
+
+
+
+
+
 
 ### Get Latest Release Info
 
