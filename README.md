@@ -80,6 +80,72 @@ jobs:
 
 Um diesen Workflow in deinem Projekt zu verwenden, füge die oben gezeigte YAML-Konfiguration und die notwendige `release-drafter-config.yml` Datei in das `.github/workflows`-Verzeichnis deines Repositories ein. Stelle sicher, dass der `GITHUB_TOKEN` in den Secrets deines Repositories gespeichert ist, um GitHub Actions den Zugriff auf das Repository zu ermöglichen.
 
+### Empfohlenes Template für den Release Drafter
+
+Der Release Drafter ist ein Tool, das dazu dient, den Prozess der Erstellung von Release-Notizen zu automatisieren. Hier ist ein empfohlenes Template für die Konfiguration des Release Drafter, das Sie in Ihrer `release-drafter-config.yml` Datei verwenden können:
+
+```yaml
+# Konfigurationsdatei für das Release-Drafter-Tool.
+# release-drafter-config.yml
+
+# Definiert die Vorlage für den Namen des Releases.
+name-template: 'v$RESOLVED_VERSION' # Automatisch erhöhte Versionsnummer
+
+# Definiert die Vorlage für den Namen des Release-Tags.
+tag-template: 'v$RESOLVED_VERSION' # Automatisch erhöhte Versionsnummer
+
+# Kategorien für das Changelog, identifiziert durch Labels auf Pull Requests.
+categories:
+  - title: 'Features'
+    labels:
+      - 'enhancement'
+  - title: 'Bug Fixes'
+    labels:
+      - 'bug'
+  - title: 'Dokumentation'
+    labels:
+      - 'documentation'
+
+# Layout des Changelogs, formatiert nach den Änderungen in den Pull Requests.
+template: |
+  ## Änderungen
+  $CHANGES
+
+# Version-Resolver bestimmt die Art der Versionserhöhung basierend auf den PR Labels.
+version-resolver:
+  major:
+    labels:
+      - 'breaking'
+  minor:
+    labels:
+      - 'enhancement'
+  patch:
+    labels:
+      - 'bug'
+      - 'documentation'
+  default: minor
+```
+
+#### Erklärung der Konfigurationselemente
+
+- **`name-template` und `tag-template`:** Diese Vorlagen definieren, wie die Namen der Releases und Tags formatiert werden. `$RESOLVED_VERSION` wird durch die nächste Versionsnummer ersetzt, die durch die Analyse der Labels auf Pull Requests bestimmt wird.
+
+- **`categories`:** Diese Sektion listet die verschiedenen Kategorien auf, die im Changelog erscheinen sollen. Jede Kategorie ist durch spezifische Labels gekennzeichnet, die auf Pull Requests angewendet werden. Änderungen, die mit diesen Labels versehen sind, werden automatisch in die entsprechende Kategorie einsortiert.
+
+- **`template`:** Definiert das Layout des Changelogs. `$CHANGES` wird durch die formatierten Einträge für jede Änderung ersetzt, die den definierten Kategorien zugeordnet sind.
+
+- **`version-resolver`:** Bestimmt, wie die Versionsnummer basierend auf den angehängten Labels erhöht wird. Es gibt Optionen für Major-, Minor- und Patch-Updates. Der `default` wird verwendet, wenn keine spezifischen Labels gefunden werden, die eine andere Art der Versionserhöhung bestimmen.
+
+#### Anwendung und Best Practices
+
+- **Anpassung:** Sie können die Labels in den Kategorien und im `version-resolver` nach Bedarf anpassen, um sie an die spezifischen Anforderungen Ihres Projekts anzupassen.
+
+- **Dokumentation:** Stellen Sie sicher, dass alle Teammitglieder verstehen, welche Labels sie ihren Pull Requests zuweisen müssen, um korrekte Release-Notizen zu gewährleisten.
+
+- **Sicherheit:** Verwenden Sie sichere Secrets für den Zugriff auf `GITHUB_TOKEN`, um die Aktionen des Release Drafter auszuführen.
+
+Mit dieser Konfiguration können Sie einen effizienten und automatisierten Prozess für die Erstellung Ihrer Release-Notizen implementieren, der Ihnen hilft, den Überblick über wichtige Änderungen zu bewahren und die Kommunikation mit Ihren Stakeholdern zu verbessern.
+
 ### Get Latest Release Info
 
 Dieser Workflow zeigt, wie man Informationen über das zuletzt veröffentlichte Release eines Repositories ausliest. Er nutzt die aktualisierten Methoden für die Definition von Outputs zwischen Jobs gemäß der [neusten GitHub-Dokumentation](https://docs.github.com/en/actions/using-jobs/defining-outputs-for-jobs).
