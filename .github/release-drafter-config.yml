@@ -1,8 +1,10 @@
 # Konfigurationsdatei für das Release-Drafter-Tool.
 # release-drafter-config.yml
 
+# Definiert die Vorlage für den Namen des Releases.
 name-template: 'v$RESOLVED_VERSION' # Automatisch erhöhte Versionsnummer
 
+# Definiert die Vorlage für den Namen des Release-Tags.
 tag-template: 'v$RESOLVED_VERSION' # Automatisch erhöhte Versionsnummer
 
 # Definiert die Kategorien, die im Changelog angezeigt werden. Jede Kategorie kann
@@ -30,6 +32,10 @@ change-template: '- $TITLE @$AUTHOR (#$NUMBER)'
 template: |
   ## Änderungen
   $CHANGES
+
+# Mich selbst als Contributor aussschliessen, da ich der Hauptentwickler bin
+exclude-contributors:
+  - 'kurmann'
 
 # Definiert die Kategorien, die im Changelog angezeigt werden. Jede Kategorie kann
 # durch ein oder mehrere Labels identifiziert werden. Pull Requests, die diese Labels verwenden,
