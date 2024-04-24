@@ -33,6 +33,10 @@ template: |
   ## Änderungen
   $CHANGES
 
+# Mich selbst als Contributor aussschliessen, da ich der Hauptentwickler bin
+exclude-contributors:
+  - 'kurmann'
+
 # Definiert die Kategorien, die im Changelog angezeigt werden. Jede Kategorie kann
 # durch ein oder mehrere Labels identifiziert werden. Pull Requests, die diese Labels verwenden,
 # werden automatisch unter der entsprechenden Kategorie im Changelog aufgeführt.
