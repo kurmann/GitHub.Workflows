@@ -362,7 +362,7 @@ jobs:
           cd nupkgs
           dotnet nuget push "*.nupkg" --api-key ${{ secrets.NUGET_API_KEY }} --source https://api.nuget.org/v3/index.json --skip-duplicate
         shell: pwsh
-        
+
       - name: Push to GitHub Packages
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} 
@@ -379,6 +379,9 @@ Um diesen Workflow zu nutzen, füge die obige YAML-Konfiguration in das `.github
 Dieser Workflow bietet eine robuste Lösung für die Automatisierung von Build- und Veröffentlichungsprozessen von NuGet-Paketen, was zur Effizienzsteigerung und Fehlerminimierung in Softwareprojekten beiträgt.
 
 
+#### Einsatz von PowerShell für den Push von NuGet-Paketen
+
+In unserem Workflow haben wir uns für die Verwendung von PowerShell entschieden, um die NuGet-Pakete zu pushen. Der Hauptgrund dafür ist die fortgeschrittene Unterstützung von PowerShell für Wildcards. Dies erlaubt es uns, mit dem Platzhalter `*.nupkg` alle NuGet-Paketdateien im `nupkgs` Verzeichnis zu identifizieren und zu veröffentlichen, ohne ihre spezifischen Namen angeben zu müssen. Diese Funktion ist besonders nützlich, da die genauen Dateinamen der Pakete je nach Build variieren können und die Verwendung von Wildcards eine flexible und fehlerresistente Handhabung ermöglicht.
 
 
 ## Zukünftige Pläne
