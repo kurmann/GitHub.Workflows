@@ -1,4 +1,4 @@
-# GitHub Workflows Repository
+# GitHub Workflows
 
 ## Über dieses Repository
 
@@ -10,14 +10,17 @@ Um einen Workflow aus diesem Repository zu verwenden, kopiere die gewünschte `.
 
 ## Verfügbare Workflows
 
+### Draft Release Workflow
 
+Der Draft Release Workflow automatisiert das Erstellen von Release-Entwürfen basierend auf den neuesten Commits und Pull Requests. Für eine detaillierte Beschreibung siehe [Draft Release Workflow](docs/draft_release.md).
 
+### Publish NuGet Package on Release
 
+Dieser Workflow ermöglicht die automatische Veröffentlichung von NuGet-Paketen, sobald ein Release auf GitHub publiziert wird. Für eine detaillierte Beschreibung siehe [Publish NuGet Package Workflow](docs/publish_package.md).
 
+### Get Latest Release Info
 
-
-
-
+Dieser Workflow liest Informationen über das zuletzt veröffentlichte Release eines Repositories aus. Für eine detaillierte Beschreibung siehe [Get Latest Release Info Workflow](docs/get_latest_release_info.md).
 
 ## Zukünftige Pläne
 
@@ -25,4 +28,4 @@ Weitere Workflows werden kontinuierlich hinzugefügt und dokumentiert, um unters
 
 ## Support
 
-Bei Fragen oder Problemen mit den Workflows wende dich bitte über die Issues-Seite an uns.
+Bei Fragen oder Problemen mit den Workflows wende dich bitte über die Issues-Seite an mich.
