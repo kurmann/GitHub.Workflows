@@ -25,6 +25,11 @@ on:
     types: [published]
   workflow_dispatch:
 
+permissions:
+  contents: write
+  packages: write
+  pull-requests: read
+
 env:
   CSPROJ_FILE: src/ProjectName/ProjectName.csproj
   DOTNET_VERSION: '8.0.x'
