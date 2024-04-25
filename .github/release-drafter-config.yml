@@ -28,7 +28,7 @@ template: |
   $CHANGES
 
 # Die Vorlage für die einzelnen Listenpunkte der Änderungen
-change-template: '- **$TITLE** (#$NUMBER) @$AUTHOR"': $BODY
+change-template: '- **$TITLE** (#$NUMBER) @$AUTHOR": $BODY'
 
 # Definiert die Kategorien, die im Changelog angezeigt werden. Jede Kategorie kann
 # durch ein oder mehrere Labels identifiziert werden. Pull Requests, die diese Labels verwenden,
