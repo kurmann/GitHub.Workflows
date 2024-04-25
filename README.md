@@ -6,7 +6,7 @@ Dieses Repository dient als zentrale Wissensdatenbank für nützliche GitHub Wor
 
 ## Anleitung zur Nutzung der Workflows
 
-Um einen Workflow aus diesem Repository zu verwenden, kopiere die gewünschte `.yml`-Datei und etwaige Konfigurationsdateien in das `.github/workflows`-Verzeichnis deines eigenen Repositories. Passe die Konfiguration bei Bedarf an die spezifischen Anforderungen deines Projekts an.
+Um einen Workflow aus diesem Repository zu verwenden, kopiere den gewünschten YAML-Inhalt in der Ziel-Workflow-Datei im `.github/workflows`-Verzeichnis deines eigenen Repositories. Passe die Konfiguration bei Bedarf an die spezifischen Anforderungen deines Projekts an.
 
 ## Verfügbare Workflows
 

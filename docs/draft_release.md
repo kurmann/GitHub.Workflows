@@ -1,4 +1,3 @@
-
 # Draft Release Workflow
 
 ## Über den Draft Release Workflow
