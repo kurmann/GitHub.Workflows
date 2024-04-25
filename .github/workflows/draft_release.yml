@@ -3,12 +3,11 @@ on:
   push:
     branches:
       - main
+  workflow_dispatch:
 
 jobs:
   draft_release:
     runs-on: ubuntu-latest
-    env:
-      VERSION: '' # Wird im nächsten Schritt gesetzt
     steps:
       - name: Run Release Drafter
         id: release_drafter
@@ -17,32 +16,3 @@ jobs:
           config-name: 'release-drafter-config.yml'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Remove leading 'v' from tag name and store in release_version
-        run: |
-          TAG_NAME="${{ steps.release_drafter.outputs.tag_name }}"
-          echo "Tag name: $TAG_NAME"
-          VERSION="${TAG_NAME#v}"
-          echo "VERSION=$VERSION" >> $GITHUB_ENV
-
-    outputs:
-      release_id: ${{ steps.release_drafter.outputs.id }}
-      release_name: ${{ steps.release_drafter.outputs.name }}
-      release_tag_name: ${{ steps.release_drafter.outputs.tag_name }}
-      release_body: ${{ steps.release_drafter.outputs.body }}
-      release_html_url: ${{ steps.release_drafter.outputs.html_url }}
-      release_upload_url: ${{ steps.release_drafter.outputs.upload_url }}
-      release_version: ${{ env.VERSION }}
-
-  print_release_info:
-    needs: draft_release
-    runs-on: ubuntu-latest
-    steps:
-      - name: Print Release Drafter outputs
-        run: |
-          echo "Release ID: ${{ needs.draft_release.outputs.release_id }}"
-          echo "Release Name: ${{ needs.draft_release.outputs.release_name }}"
-          echo "Release Tag Name: ${{ needs.draft_release.outputs.release_tag_name }}"
-          echo "Release Body: ${{ needs.draft_release.outputs.release_body }}"
-          echo "Release HTML URL: ${{ needs.draft_release.outputs.release_html_url }}"
-          echo "Release Version: ${{ needs.draft_release.outputs.release_version }}"
