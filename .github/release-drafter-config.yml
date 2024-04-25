@@ -14,18 +14,38 @@ categories:
   - title: 'Features'
     labels:
       - 'enhancement'
+    format: '**{{title}}** - {{body}} ([#{{number}}]({{html_url}}))'
   - title: 'Bug Fixes'
     labels:
       - 'bug'
+    format: '**{{title}}** - {{body}} ([#{{number}}]({{html_url}}))'
   - title: 'Dokumentation'
     labels:
       - 'documentation'
+    format: '**{{title}}** - {{body}} ([#{{number}}]({{html_url}}))'
+  - title: 'Sonstige Änderungen'
+    labels:
+      - 'unkategorisiert'
+    format: '**{{title}}** - {{body}} ([#{{number}}]({{html_url}}))'
 
 # Definiert das allgemeine Layout des Changelogs.
 # $CHANGES wird durch die Liste der Änderungen ersetzt, die gemäß `change-template` formatiert sind.
 template: |
-  ## Änderungen
+  ## Änderungen in Version $NEXT_PATCH_VERSION
+  Hier sind die Hauptänderungen in dieser Version:
   $CHANGES
+
+  ### Neue Features
+  $FEATURES
+
+  ### Bug Fixes
+  $BUG_FIXES
+
+  ### Dokumentation
+  $DOCS
+
+  ## Vollständiges Changelog
+  Für eine detailliertere Übersicht besuchen Sie bitte: [Changelog]($FULL_HISTORY)
 
 # Definiert die Kategorien, die im Changelog angezeigt werden. Jede Kategorie kann
 # durch ein oder mehrere Labels identifiziert werden. Pull Requests, die diese Labels verwenden,
