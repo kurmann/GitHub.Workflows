@@ -34,16 +34,3 @@ jobs:
       release_html_url: ${{ steps.release_drafter.outputs.html_url }}
       release_upload_url: ${{ steps.release_drafter.outputs.upload_url }}
       release_version: ${{ env.VERSION }}
-
-  print_release_info:
-    needs: draft_release
-    runs-on: ubuntu-latest
-    steps:
-      - name: Print Release Drafter outputs
-        run: |
-          echo "Release ID: ${{ needs.draft_release.outputs.release_id }}"
-          echo "Release Name: ${{ needs.draft_release.outputs.release_name }}"
-          echo "Release Tag Name: ${{ needs.draft_release.outputs.release_tag_name }}"
-          echo "Release Body: ${{ needs.draft_release.outputs.release_body }}"
-          echo "Release HTML URL: ${{ needs.draft_release.outputs.release_html_url }}"
-          echo "Release Version: ${{ needs.draft_release.outputs.release_version }}"
