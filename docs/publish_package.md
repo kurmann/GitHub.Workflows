@@ -1,49 +1,22 @@
-# GitHub Workflows
-
-## Über dieses Repository
-
-Dieses Repository dient als zentrale Wissensdatenbank für nützliche GitHub Workflows, die speziell entwickelt wurden, um in verschiedenen Projekten unter dem `kurmann` GitHub-Account wiederverwendet zu werden. Das Hauptziel ist es, die Wiederverwendbarkeit von Prozessen zu maximieren, die Konsistenz über mehrere Projekte hinweg zu gewährleisten und die Wartung zu vereinfachen.
-
-## Anleitung zur Nutzung der Workflows
-
-Um einen Workflow aus diesem Repository zu verwenden, kopiere den gewünschten YAML-Inhalt in der Ziel-Workflow-Datei im `.github/workflows`-Verzeichnis deines eigenen Repositories. Passe die Konfiguration bei Bedarf an die spezifischen Anforderungen deines Projekts an.
-
-## Verfügbare Workflows
-
-### Draft Release Workflow
-
-Der Draft Release Workflow automatisiert das Erstellen von Release-Entwürfen basierend auf den neuesten Commits und Pull Requests. Für eine detaillierte Beschreibung siehe [Draft Release Workflow](docs/draft_release.md).
-
-### Publish NuGet Package on Release
-
-Dieser Workflow ermöglicht die automatische Veröffentlichung von NuGet-Paketen, sobald ein Release auf GitHub publiziert wird. Für eine detaillierte Beschreibung siehe [Publish NuGet Package Workflow](docs/publish_package.md).
-
-### Get Latest Release Info
-
-Dieser Workflow liest Informationen über das zuletzt veröffentlichte Release eines Repositories aus. Für eine detaillierte Beschreibung siehe [Get Latest Release Info Workflow](docs/get_latest_release_info.md).
-
-
-
-
-### Veröffentlichung eines NuGet-Pakets bei Release
+# Veröffentlichung eines NuGet-Pakets bei Release
 
 Dieser Workflow zeigt, wie man ein NuGet-Paket automatisch veröffentlicht, wenn ein Release auf GitHub publiziert wird. Er ist ideal für Projekte, die ihre Software regelmäßig und automatisch als Paket bereitstellen möchten.
 
-#### Über den NuGet-Paket-Veröffentlichungs-Workflow
+## Über den NuGet-Paket-Veröffentlichungs-Workflow
 
 Der NuGet-Paket-Veröffentlichungs-Workflow ist für Projekte gedacht, die ihre .NET-Softwarekomponenten effizient verpacken und verteilen möchten. Dieser Workflow ermöglicht es, auf ein veröffentlichtes Release zu reagieren und das entsprechende NuGet-Paket automatisch zu erstellen und zu publizieren.
 
-#### Wie der Workflow funktioniert
+## Wie der Workflow funktioniert
 
 Der Workflow wird durch das Event `release` ausgelöst, speziell wenn ein Release als `published` gekennzeichnet wird. Er kann auch manuell über die GitHub-Oberfläche gestartet werden, was durch das `workflow_dispatch` Event ermöglicht wird.
 
-#### Schritte des Workflows
+## Schritte des Workflows
 
 1. **Get latest release information:** Dieser Schritt sammelt Informationen über das neueste Release, darunter den Tag-Namen, den Release-Namen und die URL des Releases.
 
 2. **Build and publish:** In diesem Schritt wird das Projekt zunächst gebaut. Anschließend wird das NuGet-Paket gepackt und veröffentlicht, sowohl auf nuget.org als auch auf GitHub Packages.
 
-#### YAML-Konfiguration des Workflows
+## YAML-Konfiguration des Workflows
 
 ```yaml
 name: Publish NuGet Package on Release
@@ -130,22 +103,12 @@ jobs:
         shell: pwsh
 ```
 
-#### Anwendung des Workflows
+## Anwendung des Workflows
 
 Um diesen Workflow zu nutzen, füge die obige YAML-Konfiguration in das `.github/workflows`-Verzeichnis deines Projekts ein. Stelle sicher, dass die erforderlichen Secrets wie `GITHUB_TOKEN` und `NUGET_API_KEY` in deinem Repository hinterlegt sind, damit der Workflow korrekt funktionieren kann.
 
 Dieser Workflow bietet eine robuste Lösung für die Automatisierung von Build- und Veröffentlichungsprozessen von NuGet-Paketen, was zur Effizienzsteigerung und Fehlerminimierung in Softwareprojekten beiträgt.
 
-
-#### Einsatz von PowerShell für den Push von NuGet-Paketen
+## Einsatz von PowerShell für den Push von NuGet-Paketen
 
 In unserem Workflow haben wir uns für die Verwendung von PowerShell entschieden, um die NuGet-Pakete zu pushen. Der Hauptgrund dafür ist die fortgeschrittene Unterstützung von PowerShell für Wildcards. Dies erlaubt es uns, mit dem Platzhalter `*.nupkg` alle NuGet-Paketdateien im `nupkgs` Verzeichnis zu identifizieren und zu veröffentlichen, ohne ihre spezifischen Namen angeben zu müssen. Diese Funktion ist besonders nützlich, da die genauen Dateinamen der Pakete je nach Build variieren können und die Verwendung von Wildcards eine flexible und fehlerresistente Handhabung ermöglicht.
-
-
-## Zukünftige Pläne
-
-Weitere Workflows werden kontinuierlich hinzugefügt und dokumentiert, um unterschiedliche Aspekte der Software-Entwicklung und -Veröffentlichung zu unterstützen.
-
-## Support
-
-Bei Fragen oder Problemen mit den Workflows wende dich bitte über die Issues-Seite an mich.
