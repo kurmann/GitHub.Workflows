@@ -111,7 +111,7 @@ version-resolver:
     labels:
       - 'bug'
       - 'documentation'
-  default: minor
+  default: patch
 ```
 
 ### Erklärung der Konfigurationselemente

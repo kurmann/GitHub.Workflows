@@ -43,4 +43,4 @@ version-resolver:
     labels:
       - 'bug'
       - 'documentation'
-  default: minor
+  default: patch
